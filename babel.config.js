@@ -23,6 +23,7 @@ module.exports = function(api) {
                 '^config/(.+)': './src/_config/\\1',
                 '^constants/(.+)': './src/_constants/\\1',
                 '^fonts/(.+)': './src/_fonts/\\1',
+                '^images/(.+)': './src/_images/\\1',
                 '^styles/(.+)': './src/_styles/\\1',
                 '^utils/(.+)': './src/_utils/\\1'
             }

@@ -25,6 +25,7 @@ module.exports = {
         '^config(.*)$': '<rootDir>/src/_config$1',
         '^constants(.*)$': '<rootDir>/src/_constants$1',
         '^fonts(.*)$': '<rootDir>/src/_fonts$1',
+        '^images(.*)$': '<rootDir>/src/_images$1',
         '^styles(.*)$': '<rootDir>/src/_styles$1',
         '^utils(.*)$': '<rootDir>/src/_utils$1',
         '\\.(css|less|scss)$': 'identity-obj-proxy'

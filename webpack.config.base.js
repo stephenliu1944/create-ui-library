@@ -36,6 +36,7 @@ export default function(env = {}) {
                 config: path.resolve(__dirname, 'src/_config/'),
                 constants: path.resolve(__dirname, 'src/_constants/'),
                 fonts: path.resolve(__dirname, 'src/_fonts/'),
+                images: path.resolve(__dirname, 'src/_images/'),
                 styles: path.resolve(__dirname, 'src/_styles/'),
                 utils: path.resolve(__dirname, 'src/_utils/')
             }

@@ -72,13 +72,20 @@ gulp.task('copy-image', () => {
                .pipe(gulp.dest(DEST_PATH));
 
 });
+// 复制字体
+gulp.task('copy-font', () => {
+    return gulp.src(`${SRC_PATH}/**/*.@(woff|eot|ttf||otf)`)
+               .pipe(gulp.dest(DEST_PATH));
+
+});
 // 整体编译
-gulp.task('build', gulp.series(cleanTask, 'build-css', 'build-js', 'copy-image'));
+gulp.task('build', gulp.series(cleanTask, 'build-css', 'build-js', 'copy-image', 'copy-font'));
 // 监听文件改动, 调用时依赖 BABEL_ENV 参数可选值为 esm 或 commonjs.
 gulp.task('watch', (done) => {
     gulp.watch([`${SRC_PATH}/**/*.@(js|jsx)`], { delay: WATCH_DELAY },  gulp.series('build-js'));
     gulp.watch([`${SRC_PATH}/**/*.@(css|scss|sass)`], { delay: WATCH_DELAY },  gulp.series('build-css'));
     gulp.watch([`${SRC_PATH}/**/*.@(png|gif|jpg|jpeg|svg)`], { delay: WATCH_DELAY }, gulp.series('copy-image'));
+    gulp.watch([`${SRC_PATH}/**/*.@(woff|eot|ttf||otf)`], { delay: WATCH_DELAY }, gulp.series('copy-font'));
 });
 // 更新 Z 版本号, 修复bug, 兼容老版本
 gulp.task('version-patch', () => {
