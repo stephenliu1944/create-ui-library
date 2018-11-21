@@ -106,7 +106,7 @@ export default function(env = {}) {
                     loader: 'url-loader',
                     options: {
                         limit: 1,
-                        name: `images/[name]${ !isProd ? '__[hash]' : '' }.[ext]`
+                        name: 'images/[name]_[hash:base64:5].[ext]'
                     }
                 }]
                 /**
