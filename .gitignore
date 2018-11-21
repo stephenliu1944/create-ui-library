@@ -1,0 +1,14 @@
+﻿node_modules
+build
+dist
+es
+lib
+bin/*.log
+.idea
+.settings
+.vscode
+*.log
+*.iml
+*.project
+.DS_Store
+package-lock.json

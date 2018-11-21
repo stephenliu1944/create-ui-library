@@ -1,0 +1,115 @@
+{
+  "name": "scaffolding-ui-lib-es6",
+  "version": "0.0.0",
+  "description": "用于开发UI组件库的脚手架项目",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "browser": "dist/index.js",
+  "author": {
+    "name": "Stephen Liu",
+    "url": "https://gitee.com/stephenliu1944/scaffolding-ui-lib-es6.git"
+  },
+  "license": "ISC",
+  "scripts": {
+    "build:dev": "cross-env NODE_ENV=development webpack --config webpack.config.dev.babel.js --colors --display-error-details",
+    "build:umd": "cross-env NODE_ENV=production webpack --config webpack.config.prod.babel.js --colors --display-error-details",
+    "build:esm": "cross-env BABEL_ENV=esm gulp build",
+    "build:cjs": "cross-env BABEL_ENV=commonjs gulp build",
+    "start": "cross-env NODE_ENV=development webpack-dev-server --config webpack.config.dev.babel.js --colors",
+    "mock": "node mock-server/server.js",
+    "start:mock": "concurrently \"npm start\" \"npm run mock\"",
+    "lint": "eslint -c .eslintrc.prod.json --fix --ext .js,.jsx src/",
+    "test": "jest",
+    "watch:umd": "cross-env NODE_ENV=production webpack --watch --config webpack.config.prod.babel.js --colors --display-error-details",
+    "watch:esm": "cross-env BABEL_ENV=esm gulp watch",
+    "watch:cjs": "cross-env BABEL_ENV=commonjs gulp watch",
+    "package": "cross-env BUILD_PATH=dist npm run build:umd && npm run build:esm && npm run build:cjs",
+    "publish:patch": "npm run package && gulp version-patch && npm publish",
+    "publish:minor": "npm run package && gulp version-minor && npm publish",
+    "publish:major": "npm run package && gulp version-major && npm publish",
+    "unpublish": "npm unpublish -f",
+    "git:push": "gulp git-push"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.0.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.1.2",
+    "@babel/core": "^7.0.1",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/plugin-proposal-export-default-from": "^7.0.0",
+    "@babel/plugin-proposal-optional-chaining": "^7.0.0",
+    "@babel/plugin-transform-runtime": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/register": "^7.0.0",
+    "autoprefixer": "^9.1.5",
+    "babel-eslint": "^9.0.0",
+    "babel-jest": "^23.6.0",
+    "babel-loader": "^8.0.2",
+    "babel-plugin-inline-import-data-uri": "^1.0.1",
+    "babel-plugin-module-resolver": "^3.1.1",
+    "case-sensitive-paths-webpack-plugin": "^2.1.2",
+    "clean-webpack-plugin": "^0.1.19",
+    "concurrently": "^4.0.1",
+    "cross-env": "^5.2.0",
+    "css-loader": "^1.0.0",
+    "eslint": "^5.6.0",
+    "eslint-loader": "^2.1.0",
+    "event-stream": "^4.0.1",
+    "file-loader": "^2.0.0",
+    "gulp": "^4.0.0",
+    "gulp-babel": "^8.0.0",
+    "gulp-bump": "^3.1.1",
+    "gulp-cli": "^2.0.1",
+    "gulp-css-base64": "^1.3.4",
+    "gulp-eslint": "^5.0.0",
+    "gulp-less": "^4.0.1",
+    "gulp-replace": "^1.0.0",
+    "gulp-sass": "^4.0.1",
+    "gulp-sourcemaps": "^2.6.4",
+    "gulp-uglify": "^3.0.1",
+    "gulp-zip": "^4.2.0",
+    "html-webpack-plugin": "^3.2.0",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^23.6.0",
+    "json-server": "^0.14.0",
+    "mini-css-extract-plugin": "^0.4.2",
+    "node-sass": "^4.10.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.1",
+    "postcss-loader": "^3.0.0",
+    "postcss-nested": "^4.1.0",
+    "pre-commit": "^1.2.2",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.0",
+    "uglifyjs-webpack-plugin": "^2.0.1",
+    "url-loader": "^1.1.1",
+    "webpack": "^4.19.0",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.8",
+    "webpack-merge": "^4.1.4"
+  },
+  "files": [
+    "dist",
+    "lib",
+    "es",
+    "LICENSE",
+    "README.md"
+  ],
+  "pre-commit": [
+    "lint"
+  ],
+  "devServer": {
+    "local": {
+      "port": 8080
+    },
+    "mock": {
+      "host": "http://localhost",
+      "port": 3001
+    },
+    "api": {
+      "host": "http://localhost",
+      "port": 3001
+    }
+  },
+  "libraryName": "UIlibrary"
+}

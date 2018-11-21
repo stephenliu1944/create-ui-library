@@ -1,0 +1,1 @@
+npm run build:esm & pause
