@@ -2,7 +2,7 @@
 
 ### 项目介绍
 用于开发UI组件模块, 支持打包为 UMD, ESModule(esm), CommonJS(cjs) 格式, 支持按需引入的形式.
-可轻松扩展为React项目.
+可自行扩展 React 或 Vue 库.
 
 ### 项目依赖
 ```
