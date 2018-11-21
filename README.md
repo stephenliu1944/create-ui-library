@@ -2,6 +2,7 @@
 
 ### 项目介绍
 用于开发UI组件模块, 支持打包为 UMD, ESModule(esm), CommonJS(cjs) 格式, 支持按需引入的形式.
+可轻松扩展为React项目.
 
 ### 项目依赖
 ```
@@ -18,6 +19,14 @@ jest:   v23.x.x
 ```
 npm install
 ```
+
+### React扩展
+1. 安装 babel 插件
+```
+npm i -D @babel/preset-react
+npm i -S react react-dom
+```
+2. 修改 babel.config.js 配置, 解开2处 '@babel/preset-react' 注释即可.
 
 ### 注册和登陆
 ```
@@ -45,13 +54,6 @@ npm login        // 登录npm服务.
 2. 发布Y版本号执行 bin/publish-minor.bat, 表示有功能更新, 并且兼容老的版本.
 3. 发布Z版本号执行 bin/publish-patch.bat, 表示有bug修复, 并且兼容老的版本.
 4. 从服务端卸载模块执行 bin/unpublish.bat.
-
-### React扩展
-1. 安装 babel 插件
-```
-npm i -D @babel/preset-react
-```
-2. 修改 babel.config.js 配置, 解开13行和38行 '@babel/preset-react' 注释即可.
 
 ### 目录结构
 ```
