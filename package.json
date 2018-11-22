@@ -1,15 +1,33 @@
 {
   "name": "scaffolding-ui-lib-es6",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "用于开发UI组件库的脚手架项目",
   "main": "lib/index.js",
   "module": "es/index.js",
   "browser": "dist/index.js",
-  "author": {
-    "name": "Stephen Liu",
-    "url": "https://gitee.com/stephenliu1944/scaffolding-ui-lib-es6.git"
+  "license": "MIT",
+  "author": "Stephen Liu",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stephenliu1944/scaffolding-ui-lib-es6.git"
   },
-  "license": "ISC",
+  "homepage": "https://github.com/stephenliu1944/scaffolding-ui-lib-es6",
+  "bugs": {
+    "url": "https://github.com/stephenliu1944/scaffolding-ui-lib-es6/issues"
+  },
+  "keywords": [
+    "xhr",
+    "http",
+    "ajax",
+    "promise"
+  ],
+  "files": [
+    "dist",
+    "lib",
+    "es",
+    "LICENSE",
+    "README.md"
+  ],
   "scripts": {
     "build:dev": "cross-env NODE_ENV=development webpack --config webpack.config.dev.babel.js --colors --display-error-details",
     "build:umd": "cross-env NODE_ENV=production webpack --config webpack.config.prod.babel.js --colors --display-error-details",
@@ -88,13 +106,6 @@
     "webpack-dev-server": "^3.1.8",
     "webpack-merge": "^4.1.4"
   },
-  "files": [
-    "dist",
-    "lib",
-    "es",
-    "LICENSE",
-    "README.md"
-  ],
   "pre-commit": [
     "lint"
   ],
