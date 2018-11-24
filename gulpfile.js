@@ -87,6 +87,14 @@ gulp.task('watch', (done) => {
     gulp.watch([`${SRC_PATH}/**/*.@(png|gif|jpg|jpeg|svg)`], { delay: WATCH_DELAY }, gulp.series('copy-image'));
     gulp.watch([`${SRC_PATH}/**/*.@(woff|eot|ttf||otf)`], { delay: WATCH_DELAY }, gulp.series('copy-font'));
 });
+// 更新预发布版本号, 修复bug, 兼容老版本
+gulp.task('version-prerelease', () => {
+    return gulp.src('./package.json')
+        .pipe(bump({
+            type: 'prerelease'
+        }))
+        .pipe(gulp.dest('./'));
+});
 // 更新 Z 版本号, 修复bug, 兼容老版本
 gulp.task('version-patch', () => {
     return gulp.src('./package.json')

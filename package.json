@@ -1,6 +1,6 @@
 {
   "name": "scaffolding-ui-lib-es6",
-  "version": "0.1.0",
+  "version": "0.0.0",
   "description": "用于开发UI组件库的脚手架项目",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -16,10 +16,10 @@
     "url": "https://github.com/stephenliu1944/scaffolding-ui-lib-es6/issues"
   },
   "keywords": [
-    "xhr",
-    "http",
-    "ajax",
-    "promise"
+    "ui",
+    "es6",
+    "scaffolding",
+    "framework"
   ],
   "files": [
     "dist",
@@ -42,6 +42,7 @@
     "watch:esm": "cross-env BABEL_ENV=esm gulp watch",
     "watch:cjs": "cross-env BABEL_ENV=commonjs gulp watch",
     "package": "cross-env BUILD_PATH=dist npm run build:umd && npm run build:esm && npm run build:cjs",
+    "publish:prerelease": "npm run package && gulp version-prerelease && npm publish",
     "publish:patch": "npm run package && gulp version-patch && npm publish",
     "publish:minor": "npm run package && gulp version-minor && npm publish",
     "publish:major": "npm run package && gulp version-major && npm publish",
