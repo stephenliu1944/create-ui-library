@@ -15,12 +15,7 @@
   "bugs": {
     "url": "https://github.com/stephenliu1944/scaffolding-ui-lib-es6/issues"
   },
-  "keywords": [
-    "ui",
-    "es6",
-    "scaffolding",
-    "framework"
-  ],
+  "keywords": [],
   "files": [
     "dist",
     "lib",
