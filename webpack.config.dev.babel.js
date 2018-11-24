@@ -12,7 +12,7 @@ export default function(env = {}) {
         devtool: 'cheap-module-eval-source-map',
         devServer: {
             host: '0.0.0.0',
-            port: local.port,
+            port: local,
             disableHostCheck: true,
             compress: true,             // 开起 gzip 压缩
             inline: true,
@@ -20,13 +20,13 @@ export default function(env = {}) {
             contentBase: path.resolve(__dirname, 'build'),
             proxy: {
                 '/mock': {   // matches paths starting with '/mock'
+                    target: mock,
                     changeOrigin: true,
-                    target: `${ mock.host }:${ mock.port }`,
                     pathRewrite: { '^/mock': '' }
                 },
                 '/proxy': {   // matches paths starting with '/proxy'
+                    target: api,
                     changeOrigin: true,
-                    target: `${ api.host }:${ api.port }`,
                     pathRewrite: { '^/proxy': '' }
                 }
             }

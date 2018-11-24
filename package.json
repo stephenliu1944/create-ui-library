@@ -106,17 +106,9 @@
     "lint"
   ],
   "devServer": {
-    "local": {
-      "port": 8080
-    },
-    "mock": {
-      "host": "http://localhost",
-      "port": 3001
-    },
-    "api": {
-      "host": "http://localhost",
-      "port": 3001
-    }
+    "local": 8080,
+    "mock": "http://localhost:3001",
+    "api": "http://localhost:3001"
   },
   "libraryName": "UIlibrary"
 }
