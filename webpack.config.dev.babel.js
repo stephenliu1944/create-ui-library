@@ -5,7 +5,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import baseConfig from './webpack.config.base';
 import pkg from './package.json';
 
-const { local, mock, api } = pkg.devServer;
+const { local, proxy } = pkg.devServer;
 
 export default function(env = {}) {
     return webpackMerge(baseConfig(env), {
@@ -19,13 +19,8 @@ export default function(env = {}) {
             historyApiFallback: true,   // browserHistory路由
             contentBase: path.resolve(__dirname, 'build'),
             proxy: {
-                '/mock': {   // matches paths starting with '/mock'
-                    target: mock,
-                    changeOrigin: true,
-                    pathRewrite: { '^/mock': '' }
-                },
                 '/proxy': {   // matches paths starting with '/proxy'
-                    target: api,
+                    target: proxy,
                     changeOrigin: true,
                     pathRewrite: { '^/proxy': '' }
                 }

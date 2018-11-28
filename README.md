@@ -47,12 +47,13 @@ npm login        // 登录npm服务.
 
 ### link调试
 1. 将模块引入到项目中调试执行 bin/link , 然后在需要引入模块的项目中执行 npm link 模块名.
-2. 如需与项目联调, 可以根据项目引用模块的格式(umd/esm/cjs), 选择执行 bin/watch-dist.bat或watch-lib.bat或watch-esm.bat, 即可实时打包.
+2. 如需与项目联调, 可以根据项目引用模块的格式(umd/esm/cjs), 选择执行 bin/package-watch-dist.bat或package-watch-lib.bat或package-watch-esm.bat, 即可实时打包.
 
 ### 打包发布
 1. 发布X版本号执行 bin/publish-major.bat, 表示有重大更新, 并且不兼容老的版本.
 2. 发布Y版本号执行 bin/publish-minor.bat, 表示有功能更新, 并且兼容老的版本.
 3. 发布Z版本号执行 bin/publish-patch.bat, 表示有bug修复, 并且兼容老的版本.
+3. 发布预发布版本号执行 bin/publish-prerelease.bat, 表示该版本还在开发测试中, 可能会有较大改动.
 4. 从服务端卸载模块执行 bin/unpublish.bat.
 
 ### 目录结构
@@ -66,17 +67,18 @@ bin                                         // 可执行命令目录.
 |-link.bat                                  // 执行 npm link, 用于关联到项目调试.
 |-lint.bat                                  // 执行eslint生产环境代码校验.
 |-package.bat                               // 将src目录中的源码编译打包到dist(umd), lib(commonjs), es(esm)目录.
+|-package-watch-umd.bat                     // 用于关联到项目时联调 umd 组件格式时持续打包.
+|-package-watch-esm.bat                     // 用于关联到项目时联调 esm 组件格式时持续打包.
+|-package-watch-cjs.bat                     // 用于关联到项目时联调 commonjs 组件格式时持续打包.
 |-publish-major.bat                         // 发布新X版本.
 |-publish-minor.bat                         // 发布新Y版本.
 |-publish-patch.bat                         // 发布新Z版本.
+|-publish-prerelease.bat                    // 发布预发布版.
 |-startup.bat                               // 启动开发环境web服务(window)
 |-startup.sh                                // 启动开发环境web服务(linux)
 |-test.bat                                  // 执行jest单元测试(window)
 |-test.sh                                   // 执行jest单元测试(linux)
 |-unpublish.bat                             // 用于从服务端下架模块
-|-watch-umd.bat                            // 用于关联到项目时联调 umd 组件格式时持续打包.
-|-watch-esm.bat                             // 用于关联到项目时联调 esm 组件格式时持续打包.
-|-watch-cjs.bat                             // 用于关联到项目时联调 commonjs 组件格式时持续打包.
 build                                       // 代码编译后生成的临时目录.
 dist                                        // 代码打包为 umd 格式后存放的目录.
 es                                          // 代码打包为 esm 格式后存放的目录.

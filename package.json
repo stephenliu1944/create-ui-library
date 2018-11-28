@@ -33,10 +33,10 @@
     "start:mock": "concurrently \"npm start\" \"npm run mock\"",
     "lint": "eslint -c .eslintrc.prod.json --fix --ext .js,.jsx src/",
     "test": "jest",
-    "watch:umd": "cross-env NODE_ENV=production webpack --watch --config webpack.config.prod.babel.js --colors --display-error-details",
-    "watch:esm": "cross-env BABEL_ENV=esm gulp watch",
-    "watch:cjs": "cross-env BABEL_ENV=commonjs gulp watch",
     "package": "cross-env BUILD_PATH=dist npm run build:umd && npm run build:esm && npm run build:cjs",
+    "package:watch:umd": "cross-env BUILD_PATH=dist NODE_ENV=production webpack --watch --config webpack.config.prod.babel.js --colors --display-error-details",
+    "package:watch:esm": "cross-env BABEL_ENV=esm gulp watch",
+    "package:watch:cjs": "cross-env BABEL_ENV=commonjs gulp watch",
     "publish:prerelease": "npm run package && gulp version-prerelease && npm publish",
     "publish:patch": "npm run package && gulp version-patch && npm publish",
     "publish:minor": "npm run package && gulp version-minor && npm publish",
@@ -107,8 +107,8 @@
   ],
   "devServer": {
     "local": 8080,
-    "mock": "http://localhost:3001",
-    "api": "http://localhost:3001"
+    "mock": 3001,
+    "proxy": "http://localhost:3001"
   },
   "libraryName": "UIlibrary"
 }
