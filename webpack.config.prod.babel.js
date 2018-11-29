@@ -5,6 +5,9 @@ import baseConfig from './webpack.config.base';
 
 export default function(env = {}) {
     return webpackMerge(baseConfig(env), {
+        // externals: {
+        //     jquery: 'jQuery'
+        // },
         module: {
             rules: [{
             /**
