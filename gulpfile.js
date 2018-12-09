@@ -6,6 +6,7 @@ var sourcemaps = require('gulp-sourcemaps');
 var replace = require('gulp-replace');
 var uglify = require('gulp-uglify');
 var babel = require('gulp-babel');
+var postcss = require('gulp-postcss');
 var less = require('gulp-less');
 var sass = require('gulp-sass');
 var bump = require('gulp-bump');
@@ -14,7 +15,6 @@ var eventStream = require('event-stream');
 var cssBase64 = require('gulp-css-base64');
 
 const MODE = process.env.BABEL_ENV;
-const PACKAGE_NAME = pkg.packageName;   // 打包生成的文件名, 如www.bbdservice.com
 const SRC_PATH = 'src';                 // 编译文件
 const ESM_PATH = 'es';                  // 编译文件
 const LIB_PATH = 'lib';                 // 编译文件
@@ -45,8 +45,9 @@ gulp.task('build-css', () => {
     // 编译 sass
     var sassStream = gulp.src(`${SRC_PATH}/**/*.@(scss|sass)`)
                          .pipe(sass().on('error', sass.logError));
+    // 编译 css                         
     return eventStream.merge(lessStream, sassStream, gulp.src(`${SRC_PATH}/**/*.@(css)`))
-                //    .pipe(cssBase64())       // css引用的图片转成base64格式
+                      .pipe(postcss())
                       .pipe(gulp.dest(DEST_PATH));
 });
 // 代码校验
