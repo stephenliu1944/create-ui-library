@@ -50,10 +50,13 @@
     }
   },
   "lint-staged": {
-    "src/**/*.{js,jsx}": [
-      "npm run lint:js",
-      "git add"
-    ]
+    "linters": {
+      "src/**/*.js": [
+        "npm run lint:js",
+        "git add"
+      ]
+    },
+    "ignore": ["src/dev.js"]
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0"
