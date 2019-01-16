@@ -5,14 +5,14 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import baseConfig from './webpack.config.base';
 import pkg from './package.json';
 
-const { local, proxy } = pkg.devServer;
+const { servers, proxy } = pkg.devEnvironment;
 
 export default function(env = {}) {
     return webpackMerge(baseConfig(env), {
         devtool: 'cheap-module-eval-source-map',
         devServer: {
             host: '0.0.0.0',
-            port: local,
+            port: servers.local,
             disableHostCheck: true,
             compress: true,             // 开起 gzip 压缩
             inline: true,
@@ -21,6 +21,7 @@ export default function(env = {}) {
             proxy: {
                 '/proxy': {   // matches paths starting with '/proxy'
                     target: proxy,
+                    logLevel: 'debug',
                     changeOrigin: true,
                     pathRewrite: { '^/proxy': '' }
                 }
