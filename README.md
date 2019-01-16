@@ -39,7 +39,7 @@ npm login        // 登录npm服务.
 2. name 为模块的名字, libraryName 为UMD格式打包后的全局变量名, 这两项为必填.
 
 ### 服务配置
-本地服务端口默认为8080, 在 package.json > devEnvironment > local > port 中可修改端口配置.
+本地服务端口默认为8080, 在 package.json > devEnvironments > servers > local 中可修改端口配置.
 
 ### 本地调试
 1. 开发阶段执行 bin/startup.bat 启动开发服务器, 组件开发过程中可在 src/dev.js 文件中模拟外部使用模块的情况进行本地调试.

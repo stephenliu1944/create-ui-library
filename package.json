@@ -55,7 +55,9 @@
         "git add"
       ]
     },
-    "ignore": ["src/dev.js"]
+    "ignore": [
+      "src/dev.js"
+    ]
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0"
@@ -69,6 +71,7 @@
     "@babel/plugin-transform-runtime": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
     "@babel/register": "^7.0.0",
+    "@beancommons/proxy": "^0.2.1",
     "autoprefixer": "^9.1.5",
     "babel-eslint": "^9.0.0",
     "babel-jest": "^23.6.0",
@@ -117,12 +120,14 @@
     "webpack-dev-server": "^3.1.8",
     "webpack-merge": "^4.1.4"
   },
-  "devEnvironment": {
+  "devEnvironments": {
     "servers": {
       "local": 8080,
       "mock": 3001
     },
-    "proxy": "http://localhost:3001"
+    "proxies": [
+      "http://localhost:3001"
+    ]
   },
   "libraryName": "UIlibrary"
 }

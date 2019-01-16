@@ -2,10 +2,11 @@ import path from 'path';
 import webpack from 'webpack';
 import webpackMerge from 'webpack-merge';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import { proxy } from '@beancommons/proxy';
 import baseConfig from './webpack.config.base';
 import pkg from './package.json';
 
-const { servers, proxy } = pkg.devEnvironment;
+const { servers, proxies } = pkg.devEnvironments;
 
 export default function(env = {}) {
     return webpackMerge(baseConfig(env), {
@@ -19,12 +20,7 @@ export default function(env = {}) {
             historyApiFallback: true,   // browserHistory路由
             contentBase: path.resolve(__dirname, 'build'),
             proxy: {
-                '/proxy': {   // matches paths starting with '/proxy'
-                    target: proxy,
-                    logLevel: 'debug',
-                    changeOrigin: true,
-                    pathRewrite: { '^/proxy': '' }
-                }
+                ...proxy(proxies)
             }
         },
         module: {

@@ -5,7 +5,7 @@ var pkg = require('../package.json');
 const server = jsonServer.create();
 const router = jsonServer.router('mock-server/data/db.json');
 const middlewares = jsonServer.defaults();
-var { mock } = pkg.devEnvironment.servers;
+var { mock } = pkg.devEnvironments.servers;
 
 server.use(middlewares);
 server.use(router);
