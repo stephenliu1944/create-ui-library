@@ -1,10 +1,11 @@
 {
-  "name": "scaffolding-ui-lib-es6",
+  "name": "my-ui-lib",
   "version": "0.1.0",
-  "description": "用于开发UI组件库的脚手架项目",
+  "description": "Use for development UI library.",
   "main": "lib/index.js",
   "module": "es/index.js",
   "browser": "dist/index.js",
+  "libraryName": "MyUILib",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -32,7 +33,7 @@
     "start:mock": "concurrently \"npm start\" \"npm run mock\"",
     "lint:js": "eslint -c .eslintrc.prod.json --fix",
     "test": "jest",
-    "package": "cross-env BUILD_PATH=dist npm run build:umd && npm run build:esm && npm run build:cjs",
+    "package": "cross-env BUILD_PATH=dist npm run build:umd && gulp zip && npm run build:esm && npm run build:cjs",
     "package:watch:umd": "cross-env NODE_ENV=production BUILD_PATH=dist webpack --watch --config webpack.config.prod.babel.js --colors --display-error-details",
     "package:watch:esm": "cross-env NODE_ENV=production BABEL_ENV=esm gulp watch",
     "package:watch:cjs": "cross-env NODE_ENV=production BABEL_ENV=commonjs gulp watch",
@@ -41,6 +42,9 @@
     "publish:minor": "npm run package && gulp version-minor && npm publish",
     "publish:major": "npm run package && gulp version-major && npm publish",
     "unpublish": "npm unpublish -f",
+    "deploy:dev": "npm run package && gulp deploy-dev",
+    "deploy:test": "npm run package && gulp deploy-test",
+    "deploy:all": "npm run package && gulp deploy-all",
     "git:push": "gulp git-push"
   },
   "husky": {
@@ -72,11 +76,10 @@
     "@babel/plugin-transform-runtime": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
     "@babel/register": "^7.0.0",
-    "@beancommons/proxy": "^0.2.1",
     "autoprefixer": "^9.1.5",
+    "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^9.0.0",
     "babel-jest": "^23.6.0",
-    "babel-core": "^7.0.0-bridge.0",
     "babel-loader": "^8.0.2",
     "babel-plugin-inline-import-data-uri": "^1.0.1",
     "babel-plugin-module-resolver": "^3.1.1",
@@ -85,6 +88,7 @@
     "concurrently": "^4.0.1",
     "cross-env": "^5.2.0",
     "css-loader": "^1.0.0",
+    "del": "^5.0.0",
     "eslint": "^5.6.0",
     "eslint-loader": "^2.1.0",
     "event-stream": "^4.0.1",
@@ -99,10 +103,12 @@
     "gulp-postcss": "^8.0.0",
     "gulp-replace": "^1.0.0",
     "gulp-sass": "^4.0.1",
+    "gulp-sftp-up4": "^0.1.8",
     "gulp-sourcemaps": "^2.6.4",
     "gulp-uglify": "^3.0.1",
     "gulp-zip": "^4.2.0",
     "html-webpack-plugin": "^3.2.0",
+    "http-proxy-config": "^0.1.3",
     "husky": "^1.2.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^23.6.0",
@@ -125,11 +131,30 @@
   "devEnvironments": {
     "servers": {
       "local": 8080,
-      "mock": 3001
+      "mock": 3000
     },
     "proxies": [
-      "http://localhost:3001"
+      "[http://localhost:3000]"
     ]
   },
-  "libraryName": "UIlibrary"
+  "deploy": {
+    "dev": {
+      "host": "",
+      "port": 22,
+      "user": "",
+      "pass": "",
+      "zip": true,
+      "timeout": 60000,
+      "remotePath": "/usr/local/static"
+    },
+    "test": {
+      "host": "",
+      "port": 22,
+      "user": "",
+      "pass": "",
+      "zip": true,
+      "timeout": 60000,
+      "remotePath": "/usr/local/static"
+    }
+  }
 }

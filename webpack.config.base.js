@@ -81,14 +81,14 @@ export default function(env = {}) {
                 test: /\.(css|scss)$/,
                 include: path.resolve(__dirname, 'src'),
                 use: [{
-                        loader: MiniCssExtractPlugin.loader,
-                        options: {
-                            publicPath: './'    // 设置css文件中的url()图片引用前缀
-                        }
-                    },
-                    'css-loader',               // 不使用cssModule, 使用方便用户覆盖的命名规则, 如xxx-xxx-xxx
-                    'postcss-loader',
-                    'sass-loader'
+                    loader: MiniCssExtractPlugin.loader,
+                    options: {
+                        publicPath: './'    // 设置css文件中的url()图片引用前缀
+                    }
+                },
+                'css-loader',               // 不使用cssModule, 使用方便用户覆盖的命名规则, 如xxx-xxx-xxx
+                'postcss-loader',
+                'sass-loader'
                 ]
             }, {
                 /**
@@ -107,7 +107,7 @@ export default function(env = {}) {
                     loader: 'url-loader',
                     options: {
                         limit: 1,
-                        name: 'images/[name]_[hash:base64:5].[ext]'
+                        name: 'images/[name].[ext]'
                     }
                 }]
                 /**
