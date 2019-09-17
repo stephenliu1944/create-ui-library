@@ -13,11 +13,10 @@ module.exports = {
     // The directory where Jest should output its   files
     coverageDirectory: 'coverage',
     // The glob patterns Jest uses to detect test files
-    testMatch: [
-        '<rootDir>/test/**/*.(js|jsx)'
-    ],
+    testMatch: ['<rootDir>/test/**/*.(js|jsx)'],
+    testPathIgnorePatterns: ['<rootDir>/test/index.(js|jsx)', 'node_modules'],
     // An array of directory names to be searched recursively up from the requiring module's location
-    moduleDirectories: ['node_modules', 'src'],
+    moduleDirectories: ['src', 'node_modules'],
     // An array of file extensions your modules use
     moduleFileExtensions: ['js', 'json', 'jsx'],
     // A map from regular expressions to module names that allow to stub out resources with a single module
