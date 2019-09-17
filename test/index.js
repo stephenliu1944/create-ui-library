@@ -1,4 +1,4 @@
-import Module2, { Module1 } from './index';
+import Module2, { Module1 } from '../src/index';
 
 var m1 = new Module1();
 var m2 = new Module2();

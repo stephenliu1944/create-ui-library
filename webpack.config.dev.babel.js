@@ -10,6 +10,9 @@ const { servers, proxies } = pkg.devEnvironments;
 
 export default function(env = {}) {
     return webpackMerge(baseConfig(env), {
+        entry: {
+            main: ['./test/index.js']
+        },
         devtool: 'cheap-module-eval-source-map',
         devServer: {
             host: '0.0.0.0',
@@ -48,7 +51,7 @@ export default function(env = {}) {
             }),
             new HtmlWebpackPlugin({                             // 主页面入口index.html
                 filename: 'index.html',
-                template: './src/template.html'
+                template: './test/template.html'
             })
         ]
     });

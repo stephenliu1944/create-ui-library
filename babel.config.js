@@ -3,23 +3,20 @@ const ENV = {
     PRODUCTION: 'production',
     TEST: 'test'
 };
-const MODE = {
-    ESM: 'esm',
-    COMMONJS: 'commonjs'
-};
 
 module.exports = function (api) {
     api.cache(true);
     
     var env = process.env.NODE_ENV;
-    var mode = process.env.BABEL_ENV;
     var presets = [
         ['@babel/preset-env', {
             targets: [
                 'last 2 version',
                 'ie >= 9'
             ],
-            modules: mode === MODE.ESM ? false : MODE.COMMONJS     // transform esm to cjs, false to keep esm.
+            // Enable transformation of ES6 module syntax to another module type.
+            // Setting this to false will not transform modules. keep to esm.
+            modules: process.env.BABEL_ENV === 'esm' ? false: 'commonjs'
         }]
     ];
     var plugins = [

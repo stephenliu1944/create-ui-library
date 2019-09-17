@@ -41,6 +41,23 @@ gulp.task('clean-lib', () => {
 });
 // 清除 /es 和 /lib 目录
 gulp.task('clean', gulp.parallel('clean-esm', 'clean-lib'));
+// 代码校验
+gulp.task('eslint', () => {
+    return gulp.src([`${SRC_PATH}/**/*.@(js|jsx)`, `!${SRC_PATH}/dev.js`])
+        .pipe(eslint({
+            fix: true,      // 自动修复错误
+            configFile: '.eslintrc.prod.json'
+        }))
+        .pipe(eslint.failOnError());
+});
+// 编译成 es module 或 commonjs 格式(根据 BABEL_ENV 参数), 引用的图片转换为base64格式
+gulp.task('build-js', gulp.series('eslint', () => {
+    return gulp.src([`${SRC_PATH}/**/*.@(js|jsx)`, `!${SRC_PATH}/dev.js`])
+        .pipe(babel())
+        .pipe(replace(/\.jsx/g, '.js'))                   // 替换 jsx 文件名和文件内的引用名
+        .pipe(replace(/\.(less|scss|sass)/g, '.css'))     // 替换 less, scss 文件名和 js 文件中引用的 scss 文件名
+        .pipe(gulp.dest(DEST_PATH));
+}));
 // 编译 less, sass, css 文件
 gulp.task('build-css', () => {
     // 编译 less
@@ -54,23 +71,6 @@ gulp.task('build-css', () => {
         .pipe(postcss())
         .pipe(gulp.dest(DEST_PATH));
 });
-// 代码校验
-gulp.task('eslint', () => {
-    return gulp.src([`${SRC_PATH}/**/*.@(js|jsx)`, `!${SRC_PATH}/dev.js`])
-        .pipe(eslint({
-            fix: true,      // 自动修复错误
-            configFile: '.eslintrc.prod.json'
-        }))
-        .pipe(eslint.failOnError());
-});
-// 编译成 es module 或 commonjs 格式(根据BABEL_ENV参数), 引用的图片转换为base64格式
-gulp.task('build-js', gulp.series('eslint', () => {
-    return gulp.src([`${SRC_PATH}/**/*.@(js|jsx)`, `!${SRC_PATH}/dev.js`])
-        .pipe(babel())
-        .pipe(replace(/\.jsx/g, '.js'))                   // 替换 jsx 文件名和文件内的引用名
-        .pipe(replace(/\.(less|scss|sass)/g, '.css'))     // 替换 less, scss 文件名和 js 文件中引用的 scss 文件名
-        .pipe(gulp.dest(DEST_PATH));
-}));
 // 复制图片
 gulp.task('copy-image', () => {
     return gulp.src(`${SRC_PATH}/**/*.@(png|gif|jpg|jpeg|svg)`)

@@ -4,31 +4,25 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import CleanWebpackPlugin from 'clean-webpack-plugin';
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
-import pkg from './package.json';
 
-const libraryName = pkg.libraryName;
 const isProd = process.env.NODE_ENV === 'production';
 const ASSETS_PATH = process.env.BUILD_PATH || 'build';
 const JS_NAME = 'index.js';
 const CSS_NAME = 'index.css';
-var thirdpartyCSS = [path.resolve(__dirname, 'node_modules')];
+
+/* var thirdpartyCSS = [path.resolve(__dirname, 'node_modules')];
 
 if (!isProd) {
     thirdpartyCSS.push([path.resolve(__dirname, 'es'), path.resolve(__dirname, 'lib')]);
-}
+} */
 
 export default function(env = {}) {
     return {
         mode: process.env.NODE_ENV,
-        entry: {
-            main: [`./src/${ isProd ? 'index' : 'dev' }.js`]
-        },
         output: {
             publicPath: '/',
             path: path.resolve(__dirname, ASSETS_PATH),
-            filename: JS_NAME,
-            library: isProd ? libraryName : undefined,
-            libraryTarget: isProd ? 'umd' : undefined
+            filename: JS_NAME
         },
         resolve: {
             extensions: ['.js', '.jsx', '.css', '.scss'],
@@ -95,7 +89,7 @@ export default function(env = {}) {
                  * 第三方组件的css, scss.
                  */
                 test: /\.(css|scss)$/,
-                include: thirdpartyCSS,
+                include: path.resolve(__dirname, 'node_modules'),
                 use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
             }, {
                 /**
@@ -126,8 +120,14 @@ export default function(env = {}) {
             }]
         },
         plugins: [
-            new CleanWebpackPlugin([`${ASSETS_PATH}/*.*`, `${ASSETS_PATH}/fonts`, `${ASSETS_PATH}/images`]),    // 清空编译目录
-            new CaseSensitivePathsPlugin(),                              // 文件大小写检测
+            // 清空编译目录
+            new CleanWebpackPlugin([        
+                `${ASSETS_PATH}/*.*`, 
+                `${ASSETS_PATH}/fonts`, 
+                `${ASSETS_PATH}/images`
+            ]),    
+            // 文件大小写检测
+            new CaseSensitivePathsPlugin(),                              
             new MiniCssExtractPlugin({
                 filename: CSS_NAME
             })
