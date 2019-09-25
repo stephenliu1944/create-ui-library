@@ -1,4 +1,4 @@
-import './module1.scss';
+import './module1.css';
 import Component1 from './components/Component1.js';
 import windowPNG from './images/eye.png';
 

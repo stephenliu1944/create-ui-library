@@ -66,7 +66,7 @@ gulp.task('build-css', () => {
     // 编译 sass
     var sassStream = gulp.src(`${SRC_PATH}/**/*.@(scss|sass)`)
         .pipe(sass().on('error', sass.logError));
-    // 编译 css                         
+    // 编译 postcss                         
     return eventStream.merge(lessStream, sassStream, gulp.src(`${SRC_PATH}/**/*.@(css)`))
         .pipe(postcss())
         .pipe(gulp.dest(DEST_PATH));
@@ -75,15 +75,13 @@ gulp.task('build-css', () => {
 gulp.task('copy-image', () => {
     return gulp.src(`${SRC_PATH}/**/*.@(png|gif|jpg|jpeg|svg)`)
         .pipe(gulp.dest(DEST_PATH));
-
 });
 // 复制字体
 gulp.task('copy-font', () => {
     return gulp.src(`${SRC_PATH}/**/*.@(woff|eot|ttf||otf)`)
         .pipe(gulp.dest(DEST_PATH));
-
 });
-// 整体编译
+// 整体构建
 gulp.task('build', gulp.series(cleanTask, 'build-css', 'build-js', 'copy-image', 'copy-font'));
 // 监听文件改动, 调用时依赖 BABEL_ENV 参数可选值为 esm 或 commonjs.
 gulp.task('watch', (done) => {

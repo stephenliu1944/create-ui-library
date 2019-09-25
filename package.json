@@ -26,17 +26,18 @@
   "scripts": {
     "build:dev": "cross-env NODE_ENV=development webpack --config webpack.config.dev.babel.js --colors --display-error-details",
     "build:umd": "cross-env NODE_ENV=production webpack --config webpack.config.prod.babel.js --colors --display-error-details",
+    "build:umd-compress": "cross-env BUILD_COMPRESS=true npm run build:umd",
     "build:esm": "cross-env NODE_ENV=production BABEL_ENV=esm gulp build",
     "build:cjs": "cross-env NODE_ENV=production BABEL_ENV=commonjs gulp build",
     "start": "cross-env NODE_ENV=development webpack-dev-server --config webpack.config.dev.babel.js --colors",
-    "mock": "node mock-server/server.js",
+    "mock": "mock-server ./mock/data --static ./mock/static --config ./mock/mock.config.js --watch",
     "start:mock": "concurrently \"npm start\" \"npm run mock\"",
     "lint:js": "eslint -c .eslintrc.prod.json --fix",
     "test": "jest",
-    "package": "cross-env BUILD_PATH=dist npm run build:umd && gulp zip && npm run build:esm && npm run build:cjs",
-    "package:watch:umd": "cross-env NODE_ENV=production BUILD_PATH=dist webpack --watch --config webpack.config.prod.babel.js --colors --display-error-details",
-    "package:watch:esm": "cross-env NODE_ENV=production BABEL_ENV=esm gulp watch",
-    "package:watch:cjs": "cross-env NODE_ENV=production BABEL_ENV=commonjs gulp watch",
+    "package": "cross-env BUILD_PATH=dist npm run build:umd && npm run build:umd-compress && gulp zip && npm run build:esm && npm run build:cjs",
+    "package:watch-umd": "cross-env NODE_ENV=production BUILD_PATH=dist webpack --watch --config webpack.config.prod.babel.js --colors --display-error-details",
+    "package:watch-esm": "cross-env NODE_ENV=production BABEL_ENV=esm gulp watch",
+    "package:watch-cjs": "cross-env NODE_ENV=production BABEL_ENV=commonjs gulp watch",
     "publish:prerelease": "npm run package && gulp version-prerelease && npm publish",
     "publish:patch": "npm run package && gulp version-patch && npm publish",
     "publish:minor": "npm run package && gulp version-minor && npm publish",
@@ -108,18 +109,19 @@
     "gulp-uglify": "^3.0.1",
     "gulp-zip": "^4.2.0",
     "html-webpack-plugin": "^3.2.0",
-    "http-proxy-config": "^0.1.3",
+    "@middlend/http": "^0.1.0",
+    "@middlend/define": "^0.1.0",
+    "@middlend/mock-server": "^0.1.3",
+    "@middlend/proxy-config": "^0.1.0",
     "husky": "^1.2.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^25.0.0",
     "json-server": "^0.14.0",
     "lint-staged": "^8.1.0",
     "mini-css-extract-plugin": "^0.4.2",
-    "node-sass": "^4.10.0",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
     "postcss-loader": "^3.0.0",
     "postcss-nested": "^4.1.0",
-    "sass-loader": "^7.1.0",
     "style-loader": "^0.23.0",
     "uglifyjs-webpack-plugin": "^2.0.1",
     "url-loader": "^1.1.1",
@@ -133,9 +135,12 @@
       "local": 8080,
       "mock": 3000
     },
-    "proxies": [
-      "[http://localhost:3000]"
-    ]
+    "proxies": {
+      "(/proxy)": "http://localhost:3000"
+    },
+    "globals": {
+      "__DEV__": true
+    }
   },
   "deploy": {
     "dev": {

@@ -5,11 +5,7 @@ import CleanWebpackPlugin from 'clean-webpack-plugin';
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 
-const isProd = process.env.NODE_ENV === 'production';
 const ASSETS_PATH = process.env.BUILD_PATH || 'build';
-const JS_NAME = 'index.js';
-const CSS_NAME = 'index.css';
-
 /* var thirdpartyCSS = [path.resolve(__dirname, 'node_modules')];
 
 if (!isProd) {
@@ -18,14 +14,12 @@ if (!isProd) {
 
 export default function(env = {}) {
     return {
-        mode: process.env.NODE_ENV,
         output: {
             publicPath: '/',
-            path: path.resolve(__dirname, ASSETS_PATH),
-            filename: JS_NAME
+            path: path.resolve(__dirname, ASSETS_PATH)
         },
         resolve: {
-            extensions: ['.js', '.jsx', '.css', '.scss'],
+            extensions: ['.js', '.jsx', '.css', '.scss', '.sass', '.less'],
             alias: {
                 config: path.resolve(__dirname, 'src/_config/'),
                 constants: path.resolve(__dirname, 'src/_constants/'),
@@ -34,29 +28,6 @@ export default function(env = {}) {
                 styles: path.resolve(__dirname, 'src/_styles/'),
                 utils: path.resolve(__dirname, 'src/_utils/')
             }
-        },
-        optimization: {
-            // splitChunks: {
-            //     minSize: 10,
-            //     minChunks: 1,
-            //     cacheGroups: {
-            //         vendors: {
-            //             test: /[\\/]node_modules[\\/]/,
-            //             name: 'vendors',
-            //             chunks: 'all'
-            //         }
-            //     }
-            // },
-            minimizer: isProd ? [
-                new UglifyJsPlugin({
-                    cache: true,
-                    parallel: true,
-                    extractComments: true,
-                    sourceMap: true
-                }),
-                new OptimizeCSSAssetsPlugin()
-            ] : undefined,
-            noEmitOnErrors: true
         },
         module: {
             rules: [{
@@ -81,8 +52,9 @@ export default function(env = {}) {
                     }
                 },
                 'css-loader',               // 不使用cssModule, 使用方便用户覆盖的命名规则, 如xxx-xxx-xxx
-                'postcss-loader',
-                'sass-loader'
+                'postcss-loader'
+                // 'sass-loader'
+                // 'less-loader'
                 ]
             }, {
                 /**
@@ -90,7 +62,12 @@ export default function(env = {}) {
                  */
                 test: /\.(css|scss)$/,
                 include: path.resolve(__dirname, 'node_modules'),
-                use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
+                use: [
+                    MiniCssExtractPlugin.loader, 
+                    'css-loader' 
+                    // 'sass-loader'
+                    // 'less-loader'
+                ]
             }, {
                 /**
                  * 图片加载器
@@ -119,6 +96,9 @@ export default function(env = {}) {
                 }]
             }]
         },
+        optimization: {
+            noEmitOnErrors: true
+        },
         plugins: [
             // 清空编译目录
             new CleanWebpackPlugin([        
@@ -127,10 +107,7 @@ export default function(env = {}) {
                 `${ASSETS_PATH}/images`
             ]),    
             // 文件大小写检测
-            new CaseSensitivePathsPlugin(),                              
-            new MiniCssExtractPlugin({
-                filename: CSS_NAME
-            })
+            new CaseSensitivePathsPlugin()
         ]
     };
 }

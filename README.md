@@ -105,14 +105,14 @@ src                                         // 项目源码目录
         ...
     |-images                                // 组件使用的图片
     |-Modules1.js                           // 组件js文件.
-    |-Modules1.scss                         // 组件的样式文件.
+    |-Modules1.css                          // 组件的样式文件.
     |-index.js                              // 组件的索引文件(用于外部快速引入)
 |-module2                                   // 模块组件1
     |-components                            // 组件包含的子组件.
         ...
     |-images                                // 组件使用的图片
     |-Modules2.js                           // 组件js文件.
-    |-Modules2.scss                         // 组件的样式文件.
+    |-Modules2.css                          // 组件的样式文件.
     |-index.js                              // 组件的索引文件(用于外部快速引入)
 |-index.js                                  // 组件打包时的入口js文件.
 |-dev.js                                    // 本地调试模拟外部使用的测试文件, 仅用于调试.
