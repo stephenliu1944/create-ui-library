@@ -1,11 +1,9 @@
 import path from 'path';
-import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import CleanWebpackPlugin from 'clean-webpack-plugin';
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
-import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 
-const ASSETS_PATH = process.env.BUILD_PATH || 'build';
+const BUILD_PATH = 'build';
 /* var thirdpartyCSS = [path.resolve(__dirname, 'node_modules')];
 
 if (!isProd) {
@@ -16,7 +14,7 @@ export default function(env = {}) {
     return {
         output: {
             publicPath: '/',
-            path: path.resolve(__dirname, ASSETS_PATH)
+            path: path.resolve(__dirname, BUILD_PATH)
         },
         resolve: {
             extensions: ['.js', '.jsx', '.css', '.scss', '.sass', '.less'],
@@ -81,10 +79,10 @@ export default function(env = {}) {
                         name: 'images/[name].[ext]'
                     }
                 }]
+            }, {
                 /**
                  * 字体加载器
                  */
-            }, {
                 test: /\.(woff|eot|ttf|js|svg|otf)$/,
                 include: path.resolve(__dirname, 'src/_fonts'),
                 use: [{
@@ -101,11 +99,13 @@ export default function(env = {}) {
         },
         plugins: [
             // 清空编译目录
-            new CleanWebpackPlugin([        
-                `${ASSETS_PATH}/*.*`, 
-                `${ASSETS_PATH}/fonts`, 
-                `${ASSETS_PATH}/images`
-            ]),    
+            new CleanWebpackPlugin(
+                process.env.BUILD_CLEAN !== 'false' ? [
+                    `${BUILD_PATH}/*.*`, 
+                    `${BUILD_PATH}/fonts`, 
+                    `${BUILD_PATH}/images`
+                ] : []
+            ),
             // 文件大小写检测
             new CaseSensitivePathsPlugin()
         ]

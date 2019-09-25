@@ -2,29 +2,29 @@ import path from 'path';
 import webpack from 'webpack';
 import define from '@middlend/define';
 import webpackMerge from 'webpack-merge';
+import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 import baseConfig from './webpack.config.base';
 import pkg from './package.json';
 
-const LIB_NAME = pkg.libraryName;
-const FILE_NAME = pkg.name;
 const { globals } = pkg.devEnvironments;
+const LIB_NAME = pkg.libraryName;
+const JS_FILE = pkg.name + '.js';
+const CSS_FILE = pkg.name + '.css';
+const JS_MIN_FILE = pkg.name + '.min.js';
+const CSS_MIN_FILE = pkg.name + '.min.css';
 
 export default function(env = {}) {
-    console.log('process.env.BUILD_COMPRESS)--------------', process.env.BUILD_COMPRESS);
     // 非压缩配置
-    uncompressedConfig = {
+    var uncompressedConfig = {
         mode: 'development',
         output: {
-            filename: FILE_NAME + '.js'
+            filename: JS_FILE
         },
-        // optimization: {
-        //     minimizer: [
-        //         new OptimizeCSSAssetsPlugin()
-        //     ]
-        // },
         plugins: [
             new MiniCssExtractPlugin({
-                filename: FILE_NAME + '.css'
+                filename: CSS_FILE
             }),
             // 配置全局变量
             new webpack.DefinePlugin({
@@ -37,22 +37,11 @@ export default function(env = {}) {
     var compressedConfig = {
         mode: 'production',
         output: {
-            filename: FILE_NAME + '.min.js'
-        },
-        optimization: {
-            minimizer: [
-                new UglifyJsPlugin({
-                    cache: true,
-                    parallel: true,
-                    extractComments: true,
-                    sourceMap: true
-                }),
-                new OptimizeCSSAssetsPlugin()
-            ]
+            filename: JS_MIN_FILE
         },
         plugins: [
             new MiniCssExtractPlugin({
-                filename: FILE_NAME + '.min.css'
+                filename: CSS_MIN_FILE
             }),
             // 配置全局变量
             new webpack.DefinePlugin({
@@ -86,6 +75,17 @@ export default function(env = {}) {
                     }
                 }]
             }]
+        },
+        optimization: {
+            minimizer: [
+                new UglifyJsPlugin({
+                    cache: true,
+                    parallel: true,
+                    extractComments: true,
+                    sourceMap: true
+                }),
+                new OptimizeCSSAssetsPlugin()
+            ]
         }
     }, process.env.BUILD_COMPRESS ? compressedConfig : uncompressedConfig);
 }
