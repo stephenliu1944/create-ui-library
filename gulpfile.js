@@ -8,8 +8,8 @@ var replace = require('gulp-replace');
 var uglify = require('gulp-uglify');
 var babel = require('gulp-babel');
 var postcss = require('gulp-postcss');
-var less = require('gulp-less');
-var sass = require('gulp-sass');
+// var less = require('gulp-less');
+// var sass = require('gulp-sass');
 var bump = require('gulp-bump');
 var eslint = require('gulp-eslint');
 var eventStream = require('event-stream');
@@ -41,7 +41,7 @@ gulp.task('clean-lib', () => {
     return del([`${LIB_PATH}/**`, `!${LIB_PATH}`]);
 });
 // 清除 /build, /es 和 /lib 目录
-gulp.task('clean', gulp.parallel('clean-build', 'clean-es', 'clean-lib'));
+gulp.task('clean', gulp.parallel('clean-dist', 'clean-es', 'clean-lib'));
 
 /**
  * 代码校验
@@ -62,13 +62,16 @@ gulp.task('eslint', () => {
 // 编译 less, sass, css 文件
 gulp.task('build-css', () => {
     // 编译 less
-    var lessStream = gulp.src(`${SRC_PATH}/**/*.@(less)`)
-        .pipe(less());
+    // var lessStream = gulp.src(`${SRC_PATH}/**/*.@(less)`)
+    //     .pipe(less());
+    
     // 编译 sass
-    var sassStream = gulp.src(`${SRC_PATH}/**/*.@(scss|sass)`)
-        .pipe(sass().on('error', sass.logError));
+    // var sassStream = gulp.src(`${SRC_PATH}/**/*.@(scss|sass)`)
+    //     .pipe(sass().on('error', sass.logError));
+
     // 编译 postcss                         
-    return eventStream.merge(lessStream, sassStream, gulp.src(`${SRC_PATH}/**/*.@(css)`))
+    // return eventStream.merge(lessStream, sassStream, gulp.src(`${SRC_PATH}/**/*.@(css)`))
+    return gulp.src(`${SRC_PATH}/**/*.@(css)`)
         .pipe(postcss())
         .pipe(gulp.dest(DEST_PATH));
 });

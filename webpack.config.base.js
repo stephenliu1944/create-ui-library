@@ -2,6 +2,7 @@ import path from 'path';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import CleanWebpackPlugin from 'clean-webpack-plugin';
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
+import StyleLintPlugin from 'stylelint-webpack-plugin';
 
 const BUILD_PATH = 'build';
 /* var thirdpartyCSS = [path.resolve(__dirname, 'node_modules')];
@@ -106,6 +107,12 @@ export default function(env = {}) {
                     `${BUILD_PATH}/images`
                 ] : []
             ),
+            new StyleLintPlugin({
+                context: 'src',
+                files: '**/*.{css,scss,sass,less}',
+                fix: true,
+                cache: true
+            }),
             // 文件大小写检测
             new CaseSensitivePathsPlugin()
         ]

@@ -1,5 +1,4 @@
 import './module1.css';
-import Component1 from './components/Component1.js';
 import windowPNG from './images/eye.png';
 
 export default class Module1 {
@@ -13,6 +12,7 @@ export default class Module1 {
             <div class="module1">
                 Module1
                 <img src="${ windowPNG }" />
+                <p>Hello World</p>
             </div>
         `;
     }

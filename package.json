@@ -1,11 +1,10 @@
 {
-  "name": "my-ui-lib",
+  "name": "my-ui",
   "version": "0.1.0",
+  "libraryName": "myui",
   "description": "Use for development UI library.",
   "main": "lib/index.js",
   "module": "es/index.js",
-  "browser": "dist/index.js",
-  "libraryName": "MyUILib",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -33,7 +32,8 @@
     "start": "cross-env NODE_ENV=development webpack-dev-server --config webpack.config.dev.babel.js --colors",
     "mock": "mock-server ./mock/data --static ./mock/static --config ./mock/mock.config.js --watch",
     "start:mock": "concurrently \"npm start\" \"npm run mock\"",
-    "lint:js": "eslint -c .eslintrc.prod.json --fix",
+    "lint:js": "eslint src/**/*.{js,jsx} -c .eslintrc.prod.json --fix",
+    "lint:css": "stylelint src/**/*.{css,scss,sass,less} --cache --fix",
     "test": "jest",
     "package": "npm run dist && npm run build:esm && npm run build:cjs",
     "publish:prerelease": "npm run package && gulp version-prerelease && npm publish",
@@ -52,14 +52,13 @@
     }
   },
   "lint-staged": {
-    "linters": {
-      "src/**/*.js": [
-        "npm run lint:js",
-        "git add"
-      ]
-    },
-    "ignore": [
-      "src/dev.js"
+    "src/**/*.{js,jsx}": [
+      "eslint -c .eslintrc.prod.json --fix",
+      "git add"
+    ],
+    "src/**/*.{css,sass,scss,less}": [
+      "stylelint --cache --fix",
+      "git add"
     ]
   },
   "dependencies": {
@@ -102,10 +101,8 @@
     "gulp-cli": "^2.0.1",
     "gulp-css-base64": "^1.3.4",
     "gulp-eslint": "^5.0.0",
-    "gulp-less": "^4.0.1",
     "gulp-postcss": "^8.0.0",
     "gulp-replace": "^1.0.0",
-    "gulp-sass": "^4.0.1",
     "gulp-sftp-up4": "^0.1.8",
     "gulp-sourcemaps": "^2.6.4",
     "gulp-uglify": "^3.0.1",
@@ -115,17 +112,19 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "^25.0.0",
     "json-server": "^0.14.0",
-    "lint-staged": "^8.1.0",
+    "lint-staged": "^9.3.0",
     "mini-css-extract-plugin": "^0.4.2",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
     "postcss-loader": "^3.0.0",
     "postcss-nested": "^4.1.0",
     "postcss-simple-vars": "^5.0.2",
     "style-loader": "^0.23.0",
+    "stylelint": "^11.0.0",
+    "stylelint-webpack-plugin": "^0.10.5",
     "uglifyjs-webpack-plugin": "^2.0.1",
     "url-loader": "^1.1.1",
     "webpack": "^4.19.0",
-    "webpack-cli": "^3.1.2",
+    "webpack-cli": "^3.3.9",
     "webpack-dev-server": "^3.1.8",
     "webpack-merge": "^4.1.4"
   },
