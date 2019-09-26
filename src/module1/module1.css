@@ -4,7 +4,6 @@ $color: blue;
     background: url('./images/address.svg');
     width: 300px;
     height: 300px;
-
     
     p {
         color: $color;
