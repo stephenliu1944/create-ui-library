@@ -1,4 +1,4 @@
-module.exports = function (api) {
+module.exports = function(api) {
     api.cache(true);
     
     var presets = [
@@ -7,8 +7,8 @@ module.exports = function (api) {
                 'last 2 version',
                 'ie >= 9'
             ],
-            // "amd" | "umd" | "systemjs" | "commonjs" | "cjs" | "auto" | false, defaults to "auto".
-            modules: process.env.BABEL_ENV === 'esm' ? false: 'commonjs'
+            // "amd" | "umd" | "systemjs" | "commonjs" | "cjs" | "auto" | false, defaults to "auto". "false" keep es6.
+            modules: process.env.BABEL_ENV === 'esm' ? false : 'commonjs'
         }]
         // '@babel/preset-react'
     ];
@@ -41,7 +41,7 @@ module.exports = function (api) {
             test: {
                 presets: [
                     '@babel/preset-env'
-                 // '@babel/preset-react'
+                    // '@babel/preset-react'
                 ]
             }
         }
