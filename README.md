@@ -1,4 +1,4 @@
-# my-ui-lib
+# my-ui
 
 ## Install
 
@@ -9,18 +9,19 @@
 ## License
 
 ## 项目介绍
-用于开发UI组件模块, 支持打包为 UMD, ESModule(esm), CommonJS(cjs) 格式, 支持按需引入的形式.
-可自行扩展 React 或 Vue 库.
+用于开发 UI 组件模块, 支持打包为 UMD, ESModule(esm), CommonJS(cjs) 格式, 支持按需引入的形式.
+可自行扩展为 React 或 Vue UI库.
 
 ### 项目依赖
 ```
-node:    v8.x.x
-npm:     v6.x.x
-webpack: v4.x.x
-eslint:  v5.x.x
-babel:   v7.x.x
-gulp:    v4.x.x
-jest:   v23.x.x
+node:       v8.x.x
+npm:        v6.x.x
+webpack:    v4.x.x
+eslint:     v5.x.x
+stylelint   v11.x.x
+babel:      v7.x.x
+gulp:       v4.x.x
+jest:       v25.x.x
 ```
 
 ### 安装教程
@@ -34,6 +35,7 @@ npm install
 npm i -D @babel/preset-react
 npm i -S react react-dom
 ```
+
 2. 修改 babel.config.js 配置, 解开2处 '@babel/preset-react' 注释即可.
 
 ### 注册和登陆
@@ -75,9 +77,6 @@ bin                                         // 可执行命令目录.
 |-link.bat                                  // 执行 npm link, 用于关联到项目调试.
 |-lint.bat                                  // 执行eslint生产环境代码校验.
 |-package.bat                               // 将src目录中的源码编译打包到dist(umd), lib(commonjs), es(esm)目录.
-|-package-watch-umd.bat                     // 用于关联到项目时联调 umd 组件格式时持续打包.
-|-package-watch-esm.bat                     // 用于关联到项目时联调 esm 组件格式时持续打包.
-|-package-watch-cjs.bat                     // 用于关联到项目时联调 commonjs 组件格式时持续打包.
 |-publish-major.bat                         // 发布新X版本.
 |-publish-minor.bat                         // 发布新Y版本.
 |-publish-patch.bat                         // 发布新Z版本.
