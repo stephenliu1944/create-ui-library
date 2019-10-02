@@ -2,16 +2,24 @@ import path from 'path';
 import webpack from 'webpack';
 import webpackMerge from 'webpack-merge';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import { settings } from 'http-proxy-config';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import { settings } from '@middlend/proxy-config';
+import define from '@middlend/define';
 import baseConfig from './webpack.config.base';
 import pkg from './package.json';
 
-const { servers, proxies } = pkg.devEnvironments;
+const JS_FILE = pkg.name + '.js';
+const CSS_FILE = pkg.name + '.css';
+const { servers, proxies, globals } = pkg.devEnvironments;
 
 export default function(env = {}) {
     return webpackMerge(baseConfig(env), {
+        mode: 'development',
         entry: {
             main: ['./test/index.js']
+        },
+        output: {
+            filename: JS_FILE
         },
         devtool: 'cheap-module-eval-source-map',
         devServer: {
@@ -44,9 +52,12 @@ export default function(env = {}) {
             }]
         },
         plugins: [
+            new MiniCssExtractPlugin({
+                filename: CSS_FILE
+            }),
             // 配置全局变量
             new webpack.DefinePlugin({
-                __DEV__: true,
+                ...define(globals),
                 'process.env.NODE_ENV': JSON.stringify('development')
             }),
             new HtmlWebpackPlugin({                             // 主页面入口index.html

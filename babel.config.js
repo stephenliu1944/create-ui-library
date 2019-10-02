@@ -1,23 +1,16 @@
-const ENV = {
-    DEVELOPMENT: 'development',
-    PRODUCTION: 'production',
-    TEST: 'test'
-};
-
-module.exports = function (api) {
+module.exports = function(api) {
     api.cache(true);
     
-    var env = process.env.NODE_ENV;
     var presets = [
         ['@babel/preset-env', {
             targets: [
                 'last 2 version',
                 'ie >= 9'
             ],
-            // Enable transformation of ES6 module syntax to another module type.
-            // Setting this to false will not transform modules. keep to esm.
-            modules: process.env.BABEL_ENV === 'esm' ? false: 'commonjs'
+            // "amd" | "umd" | "systemjs" | "commonjs" | "cjs" | "auto" | false, defaults to "auto". "false" keep es6.
+            modules: process.env.BABEL_ENV === 'esm' ? false : 'commonjs'
         }]
+        // '@babel/preset-react'
     ];
     var plugins = [
         '@babel/plugin-transform-runtime',
@@ -41,17 +34,16 @@ module.exports = function (api) {
         }]
     ];
 
-    switch(env) {
-        case ENV.DEVELOPMENT:
-            break;
-        case ENV.PRODUCTION:        
-            break;
-        case ENV.TEST:
-            break;
-    }
-
     return {
         presets,
-        plugins
+        plugins,
+        env: {
+            test: {
+                presets: [
+                    '@babel/preset-env'
+                    // '@babel/preset-react'
+                ]
+            }
+        }
     };
 };
