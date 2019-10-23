@@ -3,8 +3,8 @@ import webpack from 'webpack';
 import webpackMerge from 'webpack-merge';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import { settings } from '@middlend/proxy-config';
-import define from '@middlend/define';
+import { settings } from '@easytool/proxy-config';
+import define from '@easytool/define';
 import baseConfig from './webpack.config.base';
 import pkg from './package.json';
 
