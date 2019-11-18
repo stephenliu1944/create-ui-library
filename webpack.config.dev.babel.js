@@ -16,7 +16,7 @@ export default function(env = {}) {
     return webpackMerge(baseConfig(env), {
         mode: 'development',
         entry: {
-            main: ['./test/index.js']
+            main: ['./test/app.js']
         },
         output: {
             filename: JS_FILE
