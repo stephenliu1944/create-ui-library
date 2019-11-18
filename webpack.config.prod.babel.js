@@ -59,6 +59,9 @@ export default function(env = {}) {
             library: LIB_NAME,
             libraryTarget: 'umd'
         },
+        // externals: {
+        //     jquery: 'jQuery'
+        // },
         module: {
             rules: [{
                 /**
