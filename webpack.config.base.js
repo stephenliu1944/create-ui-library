@@ -5,11 +5,6 @@ import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import StyleLintPlugin from 'stylelint-webpack-plugin';
 
 const BUILD_PATH = 'build';
-/* var thirdpartyCSS = [path.resolve(__dirname, 'node_modules')];
-
-if (!isProd) {
-    thirdpartyCSS.push([path.resolve(__dirname, 'es'), path.resolve(__dirname, 'lib')]);
-} */
 
 export default function(env = {}) {
     return {

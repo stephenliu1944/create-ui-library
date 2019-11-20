@@ -70,10 +70,10 @@ gulp.task('build-css', () => {
     //     .pipe(sass().on('error', sass.logError));
 
     // 编译 postcss                         
-    // return eventStream.merge(lessStream, sassStream, gulp.src(`${SRC_PATH}/**/*.@(css)`))
-    return gulp.src(`${SRC_PATH}/**/*.@(css)`)
-        .pipe(postcss())
-        .pipe(gulp.dest(DEST_PATH));
+    // var mergeStream = eventStream.merge(lessStream, sassStream, gulp.src(`${SRC_PATH}/**/*.@(css)`)).pipe(postcss());
+    var mergeStream = eventStream.merge(gulp.src(`${SRC_PATH}/**/*.@(css)`)).pipe(postcss());
+    
+    return mergeStream.pipe(gulp.dest(DEST_PATH));
 });
 // 编译成 es module 或 commonjs 格式(根据 BABEL_ENV 参数), 引用的图片转换为base64格式
 gulp.task('build-js', gulp.series('eslint', () => {
