@@ -12,4 +12,3 @@ bin/*.log
 *.project
 .DS_Store
 .stylelintcache
-package-lock.json
