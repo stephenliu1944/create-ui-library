@@ -49,18 +49,19 @@ gulp.task('clean', gulp.parallel('clean-dist', 'clean-es', 'clean-lib'));
 // JS校验
 gulp.task('eslint', () => {
     return gulp.src([`${SRC_PATH}/**/*.@(js|jsx)`, `!${SRC_PATH}/dev.js`])
-        .pipe(eslint({
-            fix: true,      // 自动修复错误
-            configFile: '.eslintrc.prod.json'
-        }))
-        .pipe(eslint.failOnError());
+            .pipe(eslint({
+                fix: true,      // 自动修复错误
+                configFile: '.eslintrc.prod.json'
+            }))
+            .pipe(eslint.failOnError());
 });
 
 /**
- * 编译, 拷贝
+ * 编译
  */
 // 编译 less, sass, css 文件
 gulp.task('build-css', () => {
+    var cssStream = gulp.src(`${SRC_PATH}/**/*.@(css)`);
     // 编译 less
     // var lessStream = gulp.src(`${SRC_PATH}/**/*.@(less)`)
     //     .pipe(less());
@@ -70,33 +71,45 @@ gulp.task('build-css', () => {
     //     .pipe(sass().on('error', sass.logError));
 
     // 编译 postcss                         
-    // var mergeStream = eventStream.merge(lessStream, sassStream, gulp.src(`${SRC_PATH}/**/*.@(css)`)).pipe(postcss());
-    var mergeStream = eventStream.merge(gulp.src(`${SRC_PATH}/**/*.@(css)`)).pipe(postcss());
+    var mergeStream = eventStream.merge(
+        // lessStream, 
+        // sassStream,
+        cssStream
+    ).pipe(postcss());
     
     return mergeStream.pipe(gulp.dest(DEST_PATH));
 });
-// 编译成 es module 或 commonjs 格式(根据 BABEL_ENV 参数), 引用的图片转换为base64格式
+// 编译JS成 es module 或 commonjs 格式(根据 BABEL_ENV 参数), 引用的图片转换为base64格式
 gulp.task('build-js', gulp.series('eslint', () => {
     return gulp.src(`${SRC_PATH}/**/*.@(js|jsx)`)
-        .pipe(babel())
-        .pipe(replace(/\.jsx/g, '.js'))                   // 替换 jsx 文件名和文件内的引用名
-        .pipe(replace(/\.(less|scss|sass)/g, '.css'))     // 替换 less, scss 文件名和 js 文件中引用的 scss 文件名
-        .pipe(gulp.dest(DEST_PATH));
+            .pipe(babel())
+            .pipe(replace(/\.jsx/g, '.js'))                   // 替换 jsx 文件名和文件内的引用名
+            .pipe(replace(/\.(less|scss|sass)/g, '.css'))     // 替换 less, scss 文件名和 js 文件中引用的 scss 文件名
+            .pipe(gulp.dest(DEST_PATH));
 }));
+
+/**
+ * 拷贝
+ */
+// 复制 less, sass 源文件
+gulp.task('copy-css', () => {
+    return gulp.src(`${SRC_PATH}/**/*.@(le|sc|sa)ss`)
+            .pipe(gulp.dest(DEST_PATH));
+});
 // 复制图片
 gulp.task('copy-image', () => {
     return gulp.src(`${SRC_PATH}/**/*.@(png|gif|jpg|jpeg|svg)`)
-        .pipe(gulp.dest(DEST_PATH));
+            .pipe(gulp.dest(DEST_PATH));
 });
 // 复制字体
 gulp.task('copy-font', () => {
     return gulp.src(`${SRC_PATH}/**/*.@(woff|eot|ttf||otf)`)
-        .pipe(gulp.dest(DEST_PATH));
+            .pipe(gulp.dest(DEST_PATH));
 });
 // 复制 build 到 dist 目录
 gulp.task('copy-umd', () => {
     return gulp.src(`${BUILD_PATH}/**`)
-        .pipe(gulp.dest(DIST_PATH));
+            .pipe(gulp.dest(DIST_PATH));
 });
 // 整体构建
 gulp.task('build', gulp.series('build-css', 'build-js', 'copy-image', 'copy-font'));
@@ -118,34 +131,34 @@ gulp.task('watch', (done) => {
 // 更新预发布版本号, 开发中版本, 可能会有较大改动.
 gulp.task('version-prerelease', () => {
     return gulp.src('./package.json')
-        .pipe(bump({
-            type: 'prerelease'
-        }))
-        .pipe(gulp.dest('./'));
+            .pipe(bump({
+                type: 'prerelease'
+            }))
+            .pipe(gulp.dest('./'));
 });
 // 更新 Z 版本号, 修复bug, 兼容老版本
 gulp.task('version-patch', () => {
     return gulp.src('./package.json')
-        .pipe(bump({
-            type: 'patch'
-        }))
-        .pipe(gulp.dest('./'));
+            .pipe(bump({
+                type: 'patch'
+            }))
+            .pipe(gulp.dest('./'));
 });
 // 更新 Y 版本号, 兼容老版本
 gulp.task('version-minor', () => {
     return gulp.src('./package.json')
-        .pipe(bump({
-            type: 'minor'
-        }))
-        .pipe(gulp.dest('./'));
+            .pipe(bump({
+                type: 'minor'
+            }))
+            .pipe(gulp.dest('./'));
 });
 // 更新 X 版本号, 不兼容老版本
 gulp.task('version-major', () => {
     return gulp.src('./package.json')
-        .pipe(bump({
-            type: 'major'
-        }))
-        .pipe(gulp.dest('./'));
+            .pipe(bump({
+                type: 'major'
+            }))
+            .pipe(gulp.dest('./'));
 });
 
 /**
@@ -165,8 +178,8 @@ gulp.task('git-push', (done) => {
 // 将静态资源压缩为zip格式
 gulp.task('zip', () => {
     return gulp.src([`${DIST_PATH}/**`, `!${DIST_PATH}/*.zip`], { base: `${DIST_PATH}/` })
-        .pipe(zip(`${pkg.name}.zip`))
-        .pipe(gulp.dest(DIST_PATH));
+            .pipe(zip(`${pkg.name}.zip`))
+            .pipe(gulp.dest(DIST_PATH));
 });
 
 /**
@@ -175,12 +188,12 @@ gulp.task('zip', () => {
 // 将静态资源发布到 dev 服务器
 gulp.task('deploy-dev', () => {
     return gulp.src(dev.zip ? [`${DIST_PATH}/*.zip`] : [`${DIST_PATH}/**`, `!${DIST_PATH}/*.zip`])
-        .pipe(sftp(dev));
+            .pipe(sftp(dev));
 });
 // 将静态资源发布到 test 服务器
 gulp.task('deploy-test', () => {
     return gulp.src(test.zip ? [`${DIST_PATH}/*.zip`] : [`${DIST_PATH}/**`, `!${DIST_PATH}/*.zip`])
-        .pipe(sftp(test));
+            .pipe(sftp(test));
 });
 // 同时部署到开发和测试服务器
 gulp.task('deploy-all', gulp.parallel('deploy-dev', 'deploy-test'));

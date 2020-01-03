@@ -1,4 +1,4 @@
-import './module2.css';
+import './module2.scss';
 
 export default class Module2 {
 

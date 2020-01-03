@@ -16,6 +16,9 @@ module.exports = function(api) {
         '@babel/plugin-transform-runtime',
         '@babel/plugin-proposal-class-properties',
         '@babel/plugin-proposal-optional-chaining',
+        ['@babel/plugin-proposal-pipeline-operator', { 
+            'proposal': 'minimal' 
+        }],
         '@babel/plugin-proposal-export-default-from',
         '@babel/plugin-proposal-export-namespace-from',
         ['babel-plugin-module-resolver', {
@@ -28,7 +31,7 @@ module.exports = function(api) {
                 '^utils/(.+)': './src/_utils/\\1'
             }
         }],
-        // JS 引入的图片全部转成 base64格式, 避免打包后路径错误的问题.
+        // JS 引入的图片全部转成 base64格式, 避免打包后路径错误的问题. 主要用于 esm, lib 格式打包.
         ['babel-plugin-inline-import-data-uri', {
             extensions: ['png', 'jpg', 'jpeg', 'gif', 'svg']
         }]

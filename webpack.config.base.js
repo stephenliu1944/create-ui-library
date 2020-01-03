@@ -23,6 +23,9 @@ export default function(env = {}) {
                 utils: path.resolve(__dirname, 'src/_utils/')
             }
         },
+        optimization: {
+            noEmitOnErrors: true
+        },
         module: {
             rules: [{
                 test: /\.(js|jsx)?$/,
@@ -37,7 +40,7 @@ export default function(env = {}) {
                 /**
                  * 主项目的css
                  */
-                test: /\.(css|scss)$/,
+                test: /\.(css|scss|less)$/,
                 include: path.resolve(__dirname, 'src'),
                 use: [{
                     loader: MiniCssExtractPlugin.loader,
@@ -45,7 +48,7 @@ export default function(env = {}) {
                         publicPath: './'    // 设置css文件中的url()图片引用前缀
                     }
                 },
-                'css-loader',               // 不使用cssModule, 使用方便用户覆盖的命名规则, 如xxx-xxx-xxx
+                'css-loader',               // 不使用cssModule, 方便用户覆盖class
                 'postcss-loader'
                 // 'sass-loader'
                 // 'less-loader'
@@ -54,7 +57,7 @@ export default function(env = {}) {
                 /**
                  * 第三方组件的css, scss.
                  */
-                test: /\.(css|scss)$/,
+                test: /\.(css|scss|less)$/,
                 include: path.resolve(__dirname, 'node_modules'),
                 use: [
                     MiniCssExtractPlugin.loader, 
@@ -90,9 +93,6 @@ export default function(env = {}) {
                 }]
             }]
         },
-        optimization: {
-            noEmitOnErrors: true
-        },
         plugins: [
             // 清空编译目录
             new CleanWebpackPlugin(
@@ -104,12 +104,12 @@ export default function(env = {}) {
             ),
             new StyleLintPlugin({
                 context: 'src',
-                files: '**/*.{css,scss,sass,less}',
+                files: '**/*.(c|sc|sa|le)ss',
                 fix: true,
                 cache: true
             }),
             // 文件大小写检测
             new CaseSensitivePathsPlugin()
-        ]
+        ].filter(plugin => plugin)
     };
 }
