@@ -4,7 +4,7 @@ import webpackMerge from 'webpack-merge';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { settings } from '@easytool/proxy-config';
-import define from '@easytool/define';
+import define from '@easytool/define-config';
 import baseConfig from './webpack.config.base';
 import pkg from './package.json';
 

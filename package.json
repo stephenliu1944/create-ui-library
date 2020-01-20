@@ -75,7 +75,7 @@
     "@babel/plugin-transform-runtime": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
     "@babel/register": "^7.0.0",
-    "@easytool/define": "^0.1.0",
+    "@easytool/define-config": "^0.1.0",
     "@easytool/http": "^0.1.0",
     "@easytool/mock-server": "^0.1.0",
     "@easytool/proxy-config": "^0.1.0",

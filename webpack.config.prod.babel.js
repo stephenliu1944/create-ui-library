@@ -1,6 +1,6 @@
 import path from 'path';
 import webpack from 'webpack';
-import define from '@easytool/define';
+import define from '@easytool/define-config';
 import webpackMerge from 'webpack-merge';
 import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
