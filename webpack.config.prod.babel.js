@@ -62,8 +62,14 @@ const JSParcels = [{
 
 const CSSParcels = [{
     // 非压缩配置
+    output: {
+        filename: CSS_FILE
+    }
 }, { 
     // 压缩配置
+    output: {
+        filename: CSS_MIN_FILE
+    }
 }];
 
 export default JSParcels.map(config => {
@@ -96,4 +102,10 @@ export default JSParcels.map(config => {
             }]
         }
     }, config);
-}).concat(CSSParcels);
+}).concat(CSSParcels.map(config => {
+    return webpackMerge({
+        entry: {
+            main: ['./src/styles/index.js']
+        }
+    }, config);
+}));
