@@ -8,7 +8,7 @@ var replace = require('gulp-replace');
 var uglify = require('gulp-uglify');
 var babel = require('gulp-babel');
 var postcss = require('gulp-postcss');
-// var less = require('gulp-less');
+var less = require('gulp-less');
 // var sass = require('gulp-sass');
 var bump = require('gulp-bump');
 var eslint = require('gulp-eslint');
@@ -63,8 +63,8 @@ gulp.task('eslint', () => {
 gulp.task('build-css', () => {
     var cssStream = gulp.src(`${SRC_PATH}/**/*.@(css)`);
     // 编译 less
-    // var lessStream = gulp.src(`${SRC_PATH}/**/*.@(less)`)
-    //     .pipe(less());
+    var lessStream = gulp.src(`${SRC_PATH}/**/*.@(less)`)
+            .pipe(less());
     
     // 编译 sass
     // var sassStream = gulp.src(`${SRC_PATH}/**/*.@(scss|sass)`)
@@ -72,7 +72,7 @@ gulp.task('build-css', () => {
 
     // 编译 postcss                         
     var mergeStream = eventStream.merge(
-        // lessStream, 
+        lessStream, 
         // sassStream,
         cssStream
     ).pipe(postcss());

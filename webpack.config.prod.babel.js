@@ -15,43 +15,59 @@ const CSS_FILE = pkg.name + '.css';
 const JS_MIN_FILE = pkg.name + '.min.js';
 const CSS_MIN_FILE = pkg.name + '.min.css';
 
-export default function(env = {}) {
+const JSParcels = [{
     // 非压缩配置
-    var uncompressedConfig = {
-        mode: 'development',
-        output: {
-            filename: JS_FILE
-        },
-        plugins: [
-            new MiniCssExtractPlugin({
-                filename: CSS_FILE
-            }),
-            // 配置全局变量
-            new webpack.DefinePlugin({
-                ...define(globals, false),
-                'process.env.NODE_ENV': JSON.stringify('development')
-            })
-        ]
-    };
+    mode: 'development',
+    output: {
+        filename: JS_FILE
+    },
+    plugins: [
+        new MiniCssExtractPlugin({
+            filename: CSS_FILE
+        }),
+        // 配置全局变量
+        new webpack.DefinePlugin({
+            ...define(globals, false),
+            'process.env.NODE_ENV': JSON.stringify('development')
+        })
+    ]
+}, {
     // 压缩配置
-    var compressedConfig = {
-        mode: 'production',
-        output: {
-            filename: JS_MIN_FILE
-        },
-        plugins: [
-            new MiniCssExtractPlugin({
-                filename: CSS_MIN_FILE
+    mode: 'production',
+    output: {
+        filename: JS_MIN_FILE
+    },
+    optimization: {
+        minimizer: [
+            new UglifyJsPlugin({
+                cache: true,
+                parallel: true,
+                extractComments: true,
+                sourceMap: true
             }),
-            // 配置全局变量
-            new webpack.DefinePlugin({
-                ...define(globals, false),
-                'process.env.NODE_ENV': JSON.stringify('production')
-            })
+            new OptimizeCSSAssetsPlugin()
         ]
-    };
+    },
+    plugins: [
+        new MiniCssExtractPlugin({
+            filename: CSS_MIN_FILE
+        }),
+        // 配置全局变量
+        new webpack.DefinePlugin({
+            ...define(globals, false),
+            'process.env.NODE_ENV': JSON.stringify('production')
+        })
+    ]
+}];
 
-    return webpackMerge(baseConfig(env), {
+const CSSParcels = [{
+    // 非压缩配置
+}, { 
+    // 压缩配置
+}];
+
+export default JSParcels.map(config => {
+    return webpackMerge(baseConfig(), {
         entry: {
             main: ['./src/index.js']
         },
@@ -65,8 +81,8 @@ export default function(env = {}) {
         module: {
             rules: [{
                 /**
-                 * eslint代码规范校验
-                 */
+                     * eslint代码规范校验
+                     */
                 test: /\.(js|jsx)$/,
                 enforce: 'pre',
                 include: path.resolve(__dirname, 'src'),
@@ -78,17 +94,6 @@ export default function(env = {}) {
                     }
                 }]
             }]
-        },
-        optimization: {
-            minimizer: [
-                new UglifyJsPlugin({
-                    cache: true,
-                    parallel: true,
-                    extractComments: true,
-                    sourceMap: true
-                }),
-                new OptimizeCSSAssetsPlugin()
-            ]
         }
-    }, process.env.BUILD_COMPRESS ? compressedConfig : uncompressedConfig);
-}
+    }, config);
+}).concat(CSSParcels);

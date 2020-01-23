@@ -1,4 +1,3 @@
-import './module1.css';
 import windowPNG from './images/eye.png';
 
 export default class Module1 {

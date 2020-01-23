@@ -1,4 +1,4 @@
-import { Module1, Module2 } from '../src/index';
+import { Module1, Module2 } from 'my-ui';
 
 var m1 = new Module1();
 var m2 = new Module2();

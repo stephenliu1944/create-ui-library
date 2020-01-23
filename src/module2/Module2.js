@@ -1,4 +1,4 @@
-import './module2.scss';
+import sharePNG from 'Images/share.png';
 
 export default class Module2 {
 
@@ -8,6 +8,7 @@ export default class Module2 {
         return `
             <div class="module2">
                 Module2
+                <img src="${ sharePNG }" />
             </div>
         `;
     }

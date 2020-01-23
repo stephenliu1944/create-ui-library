@@ -6,7 +6,7 @@ import StyleLintPlugin from 'stylelint-webpack-plugin';
 
 const BUILD_PATH = 'build';
 
-export default function(env = {}) {
+export default function(env, clean = true) {
     return {
         output: {
             publicPath: '/',
@@ -15,12 +15,10 @@ export default function(env = {}) {
         resolve: {
             extensions: ['.js', '.jsx', '.css', '.scss', '.sass', '.less'],
             alias: {
-                config: path.resolve(__dirname, 'src/_config/'),
-                constants: path.resolve(__dirname, 'src/_constants/'),
-                fonts: path.resolve(__dirname, 'src/_fonts/'),
-                images: path.resolve(__dirname, 'src/_images/'),
-                styles: path.resolve(__dirname, 'src/_styles/'),
-                utils: path.resolve(__dirname, 'src/_utils/')
+                Fonts: path.resolve(__dirname, 'src/fonts/'),
+                Images: path.resolve(__dirname, 'src/images/'),
+                Styles: path.resolve(__dirname, 'src/styles/'),
+                Utils: path.resolve(__dirname, 'src/utils/')
             }
         },
         optimization: {
@@ -49,9 +47,9 @@ export default function(env = {}) {
                     }
                 },
                 'css-loader',               // 不使用cssModule, 方便用户覆盖class
-                'postcss-loader'
+                'postcss-loader',
+                'less-loader'
                 // 'sass-loader'
-                // 'less-loader'
                 ]
             }, {
                 /**
@@ -62,8 +60,8 @@ export default function(env = {}) {
                 use: [
                     MiniCssExtractPlugin.loader, 
                     'css-loader' 
-                    // 'sass-loader'
                     // 'less-loader'
+                    // 'sass-loader'
                 ]
             }, {
                 /**
