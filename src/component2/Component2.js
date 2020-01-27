@@ -7,8 +7,10 @@ export default class Component2 {
     render() {
         return `
             <div class="component2">
-                Component2
                 <img src="${ sharePNG }" />
+                <p>
+                    Component2
+                </p>
             </div>
         `;
     }

@@ -1,6 +1,13 @@
+const ENV = {
+    DEVELOPMENT: 'development',
+    PRODUCTION: 'production',
+    TEST: 'test'
+};
+
 module.exports = function(api) {
     api.cache(true);
-    
+
+    var env = process.env.NODE_ENV;
     var presets = [
         ['@babel/preset-env', {
             targets: [
@@ -35,16 +42,18 @@ module.exports = function(api) {
         }]
     ];
 
+    // 根据需要为不同环境增加配置
+    switch (env) {
+        case ENV.DEVELOPMENT:
+            break;
+        case ENV.PRODUCTION:        
+            break;
+        case ENV.TEST:
+            break;
+    }
+
     return {
         presets,
-        plugins,
-        env: {
-            test: {
-                presets: [
-                    '@babel/preset-env'
-                    // '@babel/preset-react'
-                ]
-            }
-        }
+        plugins
     };
 };
