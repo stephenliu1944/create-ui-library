@@ -1,21 +1,17 @@
 import path from 'path';
-import webpack from 'webpack';
-import define from '@easytool/define-config';
 import webpackMerge from 'webpack-merge';
-import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
+import TerserPlugin from 'terser-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 import baseConfig from './webpack.config.base';
 import pkg from './package.json';
 
-const { globals } = pkg.devEnvironments;
-const LIB_NAME = pkg.libraryName;
+const { library, external } = pkg.parcels;
 const JS_FILE = pkg.name + '.js';
 const CSS_FILE = pkg.name + '.css';
-const JS_MIN_FILE = pkg.name + '.min.js';
-const CSS_MIN_FILE = pkg.name + '.min.css';
-
-const JSParcels = [{
+const MIN_JS_FILE = pkg.name + '.min.js';
+const MIN_CSS_FILE = pkg.name + '.min.css';
+const ParcelList = [{
     // 非压缩配置
     mode: 'development',
     output: {
@@ -24,71 +20,44 @@ const JSParcels = [{
     plugins: [
         new MiniCssExtractPlugin({
             filename: CSS_FILE
-        }),
-        // 配置全局变量
-        new webpack.DefinePlugin({
-            ...define(globals, false),
-            'process.env.NODE_ENV': JSON.stringify('development')
         })
     ]
 }, {
     // 压缩配置
     mode: 'production',
     output: {
-        filename: JS_MIN_FILE
+        filename: MIN_JS_FILE
     },
     optimization: {
         minimizer: [
-            new UglifyJsPlugin({
-                cache: true,
-                parallel: true,
-                extractComments: true,
-                sourceMap: true
-            }),
+            new TerserPlugin(),
             new OptimizeCSSAssetsPlugin()
         ]
     },
     plugins: [
         new MiniCssExtractPlugin({
-            filename: CSS_MIN_FILE
-        }),
-        // 配置全局变量
-        new webpack.DefinePlugin({
-            ...define(globals, false),
-            'process.env.NODE_ENV': JSON.stringify('production')
+            filename: MIN_CSS_FILE
         })
     ]
 }];
 
-const CSSParcels = [{
-    // 非压缩配置
-    output: {
-        filename: CSS_FILE
-    }
-}, { 
-    // 压缩配置
-    output: {
-        filename: CSS_MIN_FILE
-    }
-}];
-
-export default JSParcels.map(config => {
+export default ParcelList.map(config => {
     return webpackMerge(baseConfig(), {
+        // 公共配置
         entry: {
-            main: ['./src/index.js']
+            // js 和 css 是分离的所以分开打包
+            main: ['./src/index.js', './src/styles/index.less']
         },
         output: {
-            library: LIB_NAME,
+            library,
             libraryTarget: 'umd'
         },
-        // externals: {
-        //     jquery: 'jQuery'
-        // },
+        externals: external,
         module: {
             rules: [{
                 /**
-                     * eslint代码规范校验
-                     */
+                 * eslint代码规范校验
+                 */
                 test: /\.(js|jsx)$/,
                 enforce: 'pre',
                 include: path.resolve(__dirname, 'src'),
@@ -102,10 +71,4 @@ export default JSParcels.map(config => {
             }]
         }
     }, config);
-}).concat(CSSParcels.map(config => {
-    return webpackMerge({
-        entry: {
-            main: ['./src/styles/index.js']
-        }
-    }, config);
-}));
+});

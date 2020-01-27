@@ -23,13 +23,13 @@ module.exports = function(api) {
         '@babel/plugin-proposal-export-namespace-from',
         ['babel-plugin-module-resolver', {
             alias: {
-                '^Fonts/(.+)': './src/fonts/\\1',
-                '^Images/(.+)': './src/images/\\1',
-                '^Styles/(.+)': './src/styles/\\1',
-                '^Utils/(.+)': './src/utils/\\1'
+                'Fonts': './src/fonts',
+                'Images': './src/images',
+                'Styles': './src/styles',
+                'Utils': './src/utils'
             }
         }],
-        // JS 引入的图片全部转成 base64格式, 避免打包后路径错误的问题. 主要用于 esm, lib 格式打包.
+        // JS 引入的图片全部转成 base64 格式, 避免打包后路径错误的问题. umd, esm, lib 格式打包时都会用到.
         ['babel-plugin-inline-import-data-uri', {
             extensions: ['png', 'jpg', 'jpeg', 'gif', 'svg']
         }]

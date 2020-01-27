@@ -1,6 +1,6 @@
 import windowPNG from './images/eye.png';
 
-export default class Module1 {
+export default class Component1 {
 
     constructor() {
 
@@ -8,8 +8,8 @@ export default class Module1 {
 
     render() {
         return `
-            <div class="module1">
-                Module1
+            <div class="component1">
+                Component1
                 <img src="${ windowPNG }" />
                 <p>Hello World</p>
             </div>

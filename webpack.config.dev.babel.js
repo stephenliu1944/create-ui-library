@@ -20,11 +20,6 @@ export default webpackMerge(baseConfig(), {
     output: {
         filename: JS_FILE
     },
-    resolve: {
-        alias: {
-            [pkg.name]: path.resolve(__dirname, 'src/')
-        }
-    },
     devtool: 'cheap-module-eval-source-map',
     devServer: {
         host: '0.0.0.0',
@@ -61,8 +56,7 @@ export default webpackMerge(baseConfig(), {
         }),
         // 配置全局变量
         new webpack.DefinePlugin({
-            ...define(globals),
-            'process.env.NODE_ENV': JSON.stringify('development')
+            ...define(globals)
         }),
         new HtmlWebpackPlugin({                             // 主页面入口index.html
             filename: 'index.html',

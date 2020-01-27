@@ -1,6 +1,6 @@
-import { Module1, Module2 } from 'my-ui';
+import { Component1, Component2 } from '../src/index';
 
-var m1 = new Module1();
-var m2 = new Module2();
+var m1 = new Component1();
+var m2 = new Component2();
 
 document.body.innerHTML = `<div>${ m1.render() + m2.render() }</div>`;

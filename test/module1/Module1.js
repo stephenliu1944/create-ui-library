@@ -1,7 +1,7 @@
-import { Module1 } from '../../src/index';
+import { Component2 } from '../../src/index';
 
-describe('describe 1', function() {
-    var module = new Module1();
+describe('Component2', function() {
+    var module = new Component2();
     it('test1', function() {
         expect(module.render()).toMatchSnapshot();
     });

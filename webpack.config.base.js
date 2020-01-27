@@ -1,25 +1,19 @@
 import path from 'path';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import CleanWebpackPlugin from 'clean-webpack-plugin';
+import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import StyleLintPlugin from 'stylelint-webpack-plugin';
 
 const BUILD_PATH = 'build';
 
-export default function(env, clean = true) {
+export default function(config) {
     return {
         output: {
             publicPath: '/',
             path: path.resolve(__dirname, BUILD_PATH)
         },
         resolve: {
-            extensions: ['.js', '.jsx', '.css', '.scss', '.sass', '.less'],
-            alias: {
-                Fonts: path.resolve(__dirname, 'src/fonts/'),
-                Images: path.resolve(__dirname, 'src/images/'),
-                Styles: path.resolve(__dirname, 'src/styles/'),
-                Utils: path.resolve(__dirname, 'src/utils/')
-            }
+            extensions: ['.js', '.jsx', '.css', '.scss', '.sass', '.less']
         },
         optimization: {
             noEmitOnErrors: true
@@ -38,7 +32,7 @@ export default function(env, clean = true) {
                 /**
                  * 主项目的css
                  */
-                test: /\.(css|scss|less)$/,
+                test: /\.(css|less|sass|scss)$/,
                 include: path.resolve(__dirname, 'src'),
                 use: [{
                     loader: MiniCssExtractPlugin.loader,
@@ -55,7 +49,7 @@ export default function(env, clean = true) {
                 /**
                  * 第三方组件的css, scss.
                  */
-                test: /\.(css|scss|less)$/,
+                test: /\.(css|less|sass|scss)$/,
                 include: path.resolve(__dirname, 'node_modules'),
                 use: [
                     MiniCssExtractPlugin.loader, 
@@ -65,10 +59,10 @@ export default function(env, clean = true) {
                 ]
             }, {
                 /**
-                 * 图片加载器
+                 * 图片加载器                 
                  */
                 test: /\.(png|jpg|jpeg|gif|svg)$/,
-                exclude: path.resolve(__dirname, 'src/_fonts'),
+                exclude: path.resolve(__dirname, 'src/fonts'),
                 use: [{
                     loader: 'url-loader',
                     options: {
@@ -81,7 +75,7 @@ export default function(env, clean = true) {
                  * 字体加载器
                  */
                 test: /\.(woff|eot|ttf|js|svg|otf)$/,
-                include: path.resolve(__dirname, 'src/_fonts'),
+                include: path.resolve(__dirname, 'src/fonts'),
                 use: [{
                     loader: 'url-loader',
                     options: {
@@ -93,13 +87,9 @@ export default function(env, clean = true) {
         },
         plugins: [
             // 清空编译目录
-            new CleanWebpackPlugin(
-                process.env.BUILD_CLEAN !== 'false' ? [
-                    `${BUILD_PATH}/*.*`, 
-                    `${BUILD_PATH}/fonts`, 
-                    `${BUILD_PATH}/images`
-                ] : []
-            ),
+            new CleanWebpackPlugin({
+                cleanOnceBeforeBuildPatterns: [`${BUILD_PATH}/**/*`]
+            }),
             new StyleLintPlugin({
                 context: 'src',
                 files: '**/*.(c|sc|sa|le)ss',
@@ -108,6 +98,6 @@ export default function(env, clean = true) {
             }),
             // 文件大小写检测
             new CaseSensitivePathsPlugin()
-        ].filter(plugin => plugin)
+        ]
     };
 }

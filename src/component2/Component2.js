@@ -1,13 +1,13 @@
 import sharePNG from 'Images/share.png';
 
-export default class Module2 {
+export default class Component2 {
 
     constructor() {}
     
     render() {
         return `
-            <div class="module2">
-                Module2
+            <div class="component2">
+                Component2
                 <img src="${ sharePNG }" />
             </div>
         `;
