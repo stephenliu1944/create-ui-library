@@ -1,6 +1,5 @@
 import path from 'path';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import StyleLintPlugin from 'stylelint-webpack-plugin';
 
@@ -40,10 +39,17 @@ export default function(config) {
                         publicPath: './'    // 设置css文件中的url()图片引用前缀
                     }
                 },
-                'css-loader',               // 不使用cssModule, 方便用户覆盖class
+                'css-loader',               // 不使用cssModule, 便于用户覆盖class
                 'postcss-loader',
                 'less-loader'
-                // 'sass-loader'
+                // 以下为 sass 配置
+                // 'resolve-url-loader',
+                // {
+                //     loader: 'sass-loader',
+                //     options: {
+                //         sourceMap: true
+                //     }
+                // }
                 ]
             }, {
                 /**
@@ -87,9 +93,6 @@ export default function(config) {
         },
         plugins: [
             // 清空编译目录
-            new CleanWebpackPlugin({
-                cleanOnceBeforeBuildPatterns: [`${BUILD_PATH}/**/*`]
-            }),
             new StyleLintPlugin({
                 context: 'src',
                 files: '**/*.(c|sc|sa|le)ss',

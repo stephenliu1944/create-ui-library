@@ -136,6 +136,21 @@ webpack.config.prod.babel.js                // webpack生产环境打包umd格�
 编写 js 模块时不要引入 css 文件, 将 js 和 css 解耦, 用户在导入时可以用 babel-plugin-import 或 babel-plugin-import-less 等按需引入插件自动引入必要的样式文件.
 css 命名不要使用 cssModule, 直接使用类似中横线等命名规则, 便于用户覆盖样式.
 
+## 使用sass
+安装依赖
+npm i -D node-sass node-sass-import-once sass-loader resolve-url-loader gulp-sass gulp-resolve-url gulp-sourcemaps
+```js
+"gulp-resolve-url": "0.0.2",
+"gulp-sass": "^4.0.2",
+"gulp-sourcemaps": "^2.6.5",
+"node-sass": "^4.13.1",
+"node-sass-import-once": "^1.2.0",
+"resolve-url-loader": "^3.1.1",
+"sass-loader": "^8.0.2",
+```
+    
+
+
 ## 主题开发
 在/src/styles/themes/default.less中定义变量, 并在每个模块自身的样式文件中引入并使用, 如:  
 button.less

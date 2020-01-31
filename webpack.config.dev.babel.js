@@ -2,6 +2,7 @@ import path from 'path';
 import webpack from 'webpack';
 import webpackMerge from 'webpack-merge';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { settings } from '@easytool/proxy-config';
 import define from '@easytool/define-config';
@@ -51,6 +52,7 @@ export default webpackMerge(baseConfig(), {
         }]
     },
     plugins: [
+        new CleanWebpackPlugin(),
         new MiniCssExtractPlugin({
             filename: CSS_FILE
         }),

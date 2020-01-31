@@ -1,18 +1,11 @@
-import windowPNG from './images/eye.png';
+import alienPNG from './images/alien.png';
 
-export default class Component1 {
-
-    constructor() {
-
-    }
-
-    render() {
-        return `
-            <div class="component1">
-                Component1
-                <img src="${ windowPNG }" />
-                <p>Hello World</p>
-            </div>
-        `;
-    }
+export default function() {
+    return `
+        <div class="component1">
+            Component1
+            <img src="${ alienPNG }" />
+            <p>Hello World</p>
+        </div>
+    `;
 }

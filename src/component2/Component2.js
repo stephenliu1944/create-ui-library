@@ -1,17 +1,10 @@
-import sharePNG from 'Images/share.png';
+import fatPNG from './images/fat.png';
 
-export default class Component2 {
-
-    constructor() {}
-    
-    render() {
-        return `
-            <div class="component2">
-                <img src="${ sharePNG }" />
-                <p>
-                    Component2
-                </p>
-            </div>
-        `;
-    }
+export default function() {
+    return `
+        <div class="component2">
+            <img src="${ fatPNG }" />
+            <p>Component2</p>
+        </div>
+    `;
 }

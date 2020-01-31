@@ -1,7 +1,8 @@
 import '../src/styles/index.less';
 import { Component1, Component2 } from '../src/index';
 
-var m1 = new Component1();
-var m2 = new Component2();
-
-document.querySelector('#app').innerHTML = `<div>${ m1.render() + m2.render() }</div>`;
+document.querySelector('#app').innerHTML = `
+    ${ Component1() }
+    <br />
+    ${ Component2() }
+`;
