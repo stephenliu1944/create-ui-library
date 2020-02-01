@@ -117,7 +117,7 @@ npm un -D less less-loader gulp-less
 ## 开发
 ### 环境配置
 在 package.json 中配置:
-```json
+```
   ...
   "devEnvironments": {
     "servers": {
@@ -143,7 +143,7 @@ npm un -D less less-loader gulp-less
 执行 bin/test.bat 启动单元测试, 需先在 /test/ 目录中对组件进行测试编码(测试框架为jest).
 
 ## 打包配置
-```json
+```
 {
   "name": "my-ui",                  // 模块名称
   "version": "0.1.0",               // 模块版本
