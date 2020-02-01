@@ -1,1 +1,0 @@
-npm run build:umd-compress & pause

@@ -14,7 +14,7 @@ module.exports = function(api) {
                 'last 2 version',
                 'ie >= 9'
             ],
-            // "amd" | "umd" | "systemjs" | "commonjs" | "cjs" | "auto" | false, defaults to "auto". "false" keep es6.
+            // 默认为 "auto". "false" 保持 es module 格式.
             modules: process.env.BABEL_ENV === 'esm' ? false : 'commonjs'
         }]
         // '@babel/preset-react'

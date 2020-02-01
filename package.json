@@ -126,7 +126,7 @@
       "mock": 3000
     },
     "proxies": {
-      "(/proxy)": "http://localhost:3000"
+      "/api": "http://localhost:3000"
     },
     "globals": {
       "__DEV__": true,

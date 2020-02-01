@@ -9,136 +9,81 @@
 ## License
 
 # 项目介绍
-用于开发 UI 组件模块, 支持打包为 UMD, ESModule(esm), CommonJS(cjs) 格式, 支持按需引入的形式.
-可自行扩展为 React 或 Vue UI库.
+脚手架用于开发 UI 组件库.
+
+## 特性
+- 内置单元测试.
+- 内置eslint, stylelint代码检测.
+- 支持打包 UMD, ESModule(esm), CommonJS(cjs) 格式.
+- 支持按需引入.
+- 支持定制主题(less/sass).
+- 支持扩展 React, Vue 等框架.
 
 ## 项目依赖
 ```
-node:       v8.x.x
-npm:        v6.x.x
-webpack:    v4.x.x
-eslint:     v5.x.x
-stylelint   v11.x.x
-babel:      v7.x.x
-gulp:       v4.x.x
-jest:       v25.x.x
+node:       v8+
+webpack:    v4
+eslint:     v5
+stylelint   v11
+babel:      v7
+gulp:       v4
+jest:       v24
+less:       v3
 ```
 
-## 安装教程
+## 安装
 ```
 npm install
 ```
 
-## React扩展
-1. 安装 babel 插件
-```
-npm i -D @babel/preset-react
-npm i -S react react-dom
-```
+## 开发规范
+1. 在 /src/index.js 中导入所有的组件脚本.
+2. 在 /src/styles/index.less 中导入所有的组件样式.
+3. 每个 component 的 JS 中不要直接引入样式(css/less/scss)文件, 将 js 和 css 解耦, 用户在使用时可以通过babel-plugin-import 或 babel-plugin-import-less 等按需引入插件自动导入必要的样式.
+4. css 命名直接使用中横线(my-ui-btn)等命名规则, 便于用户覆盖样式.
 
-2. 修改 babel.config.js 配置, 解开2处 '@babel/preset-react' 注释即可.
+## 主题开发
+### 1. 定义变量
+在 /src/styles/themes/default.less 中定义主题变量.
 
-## 注册和登陆
-```
-npm adduser      // 注册账号, 执行后会依次提示输入用户名, 密码, 邮箱.
-npm login        // 登录npm服务.
-```
+### 2. 导入变量
+在每个组件的样式文件中导入主题变量并使用, 如:  
+/src/component1/styles/index.less
+```less
+@import 'styles/base.less';
+@import 'styles/themes/default.less';
 
-## 模块配置
-1. 在 package.json 中对模块的相关信息进行配置, 参考npm官方文档.
-2. name 为模块的名字, libraryName 为UMD格式打包后的全局变量名, 这两项为必填.
-
-## 服务配置
-本地服务端口默认为8080, 在 package.json > devEnvironments > servers > local 中可修改端口配置.
-
-## 本地调试
-1. 开发阶段执行 bin/startup.bat 启动开发服务器, 组件开发过程中可在 src/dev.js 文件中模拟外部使用模块的情况进行本地调试.
-2. 开发完成后可以在 bin/test.bat 执行单元测试.(需先在test/目录进行单元测试编码, 测试框架为jest).
-
-## link调试
-1. 将模块引入到项目中调试执行 bin/link , 然后在需要引入模块的项目中执行 npm link 模块名.
-2. 如需与项目联调, 可以根据项目引用模块的格式(umd/esm/cjs), 选择执行 bin/package-watch-dist.bat或package-watch-lib.bat或package-watch-esm.bat, 即可实时打包.
-
-## 打包发布
-1. 发布X版本号执行 bin/publish-major.bat, 表示有重大更新, 并且不兼容老的版本.
-2. 发布Y版本号执行 bin/publish-minor.bat, 表示有功能更新, 并且兼容老的版本.
-3. 发布Z版本号执行 bin/publish-patch.bat, 表示有bug修复, 并且兼容老的版本.
-3. 发布预发布版本号执行 bin/publish-prerelease.bat, 表示该版本还在开发测试中, 可能会有较大改动.
-4. 从服务端卸载模块执行 bin/unpublish.bat.
-
-## 目录结构
-```
-bin                                         // 可执行命令目录.
-|-build-dev.bat                             // 将src目录中的源码通过 webpack.config.dev.babel.js 编译到build目录.
-|-build-umd.bat                             // 将src目录中的源码通过 webpack.config.prod.babel.js 编译到build目录.
-|-build-esm.bat                             // 将src目录中的源码通过 gulpfile.js 编译为 esm 格式并保存到build目录.
-|-build-cjs.bat                             // 将src目录中的源码通过 gulpfile.js 编译为 commonjs 格式并保存到build目录.
-|-git-push.bat                              // 更新 git 版本号.
-|-link.bat                                  // 执行 npm link, 用于关联到项目调试.
-|-lint.bat                                  // 执行eslint生产环境代码校验.
-|-package.bat                               // 将src目录中的源码编译打包到dist(umd), lib(commonjs), es(esm)目录.
-|-publish-major.bat                         // 发布新X版本.
-|-publish-minor.bat                         // 发布新Y版本.
-|-publish-patch.bat                         // 发布新Z版本.
-|-publish-prerelease.bat                    // 发布预发布版.
-|-startup.bat                               // 启动开发环境web服务(window)
-|-startup.sh                                // 启动开发环境web服务(linux)
-|-test.bat                                  // 执行jest单元测试(window)
-|-test.sh                                   // 执行jest单元测试(linux)
-|-unpublish.bat                             // 用于从服务端下架模块
-build                                       // 代码编译后生成的临时目录.
-dist                                        // 代码打包为 umd 格式后存放的目录.
-es                                          // 代码打包为 esm 格式后存放的目录.
-lib                                         // 代码打包为 commonjs 格式后存放的目录.
-src                                         // 项目源码目录
-|-_config                                   // 模块内部配置文件.
-    |-settings.js                           // 全局配置文件
-|-_constants                                // 模块内部常量文件.
-    |-common.js                             // 常量文件.
-|-_styles                                   // 模块内部全局样式文件.
-    |-common.js                             // 全局样式.
-|-_utils                                    // 模块内部工具文件.
-    |-common.js                             // 常用工具库.
-|-module1                                   // 模块组件1
-    |-components                            // 组件包含的子组件.
-        ...
-    |-images                                // 组件使用的图片
-    |-Modules1.js                           // 组件js文件.
-    |-Modules1.css                          // 组件的样式文件.
-    |-index.js                              // 组件的索引文件(用于外部快速引入)
-|-module2                                   // 模块组件1
-    |-components                            // 组件包含的子组件.
-        ...
-    |-images                                // 组件使用的图片
-    |-Modules2.js                           // 组件js文件.
-    |-Modules2.css                          // 组件的样式文件.
-    |-index.js                              // 组件的索引文件(用于外部快速引入)
-|-index.js                                  // 组件打包时的入口js文件.
-|-dev.js                                    // 本地调试模拟外部使用的测试文件, 仅用于调试.
-|-template.html                             // 开发调试时的页面模板文件, 仅用于调试.
-test                                        // 测试代码目录, 目录结构同src
-.eslintignore                               // eslint忽略校验配置文件.
-.eslintrc.json                              // eslint开发环境代码校验配置文件.
-.eslintrc.prod.json                         // eslint生产环境代码校验配置文件, 比开发环境更加严格, 发版和提交代码时会自动执行此配置校验代码.
-.gitignore                                  // git忽略提交配置文件.
-package.json                                // npm配置文件.
-README.md                                   // 项目开发文档.
-babel.config.js                             // babel配置文件.
-fileTransformer.js                          // jest单元测试时的文件转换器.
-jest.config.js                              // jest单元测试配置.
-gulpfile.js                                 // 组件打包为cjs, esm格式的脚本配置文件.
-webpack.config.base.js                      // webpack公共配置文件.
-webpack.config.dev.babel.js                 // webpack开发环境打包umd格式配置文件.
-webpack.config.prod.babel.js                // webpack生产环境打包umd格式配置文件.
+.component1 {
+    ...
+    p {
+        background-color: @bg-color1;
+    }
+}
 ```
 
-## 开发规则
-编写 js 模块时不要引入 css 文件, 将 js 和 css 解耦, 用户在导入时可以用 babel-plugin-import 或 babel-plugin-import-less 等按需引入插件自动引入必要的样式文件.
-css 命名不要使用 cssModule, 直接使用类似中横线等命名规则, 便于用户覆盖样式.
+## 扩展React
+### 1. 安装依赖
+```
+// 用于开发环境测试
+npm i -D react react-dom @babel/preset-react
+// 用于表明库依赖, 推荐在 package.json > peerDependencies 中配置, 具体参考npm文档
+npm i -S react
+```
 
-## 使用sass
-安装依赖
+### 2. 修改文件
+1. 移除 babel.config.js 第20行注释 '@babel/preset-react'.
+2. 将所有组件后缀改为jsx扩展名.
+3. 将/test/app.js 中的 DOM 操作改为 react-dom 实现.
+
+## 使用Sass
+### 1. 安装依赖
+```
+// 安装sass依赖
 npm i -D node-sass node-sass-import-once sass-loader resolve-url-loader gulp-sass gulp-resolve-url gulp-sourcemaps
+// 卸载less依赖
+npm un -D less less-loader gulp-less
+```
+通过测试的版本:
 ```js
 "gulp-resolve-url": "0.0.2",
 "gulp-sass": "^4.0.2",
@@ -148,13 +93,180 @@ npm i -D node-sass node-sass-import-once sass-loader resolve-url-loader gulp-sas
 "resolve-url-loader": "^3.1.1",
 "sass-loader": "^8.0.2",
 ```
-    
 
+### 2. 修改文件
+1. gulpfile.js 删除第9, 65-68, 81, 118行代码. 移除第10-13, 71-75, 82, 119行注释.
+2. webpack.config.base.js 删除第44行代码, 移除第46-52行注释.
+3. webpack.config.prod.babel.js 删除第53行代码, 移除第54行注释.
+4. 将所有less文件后缀改为scss, 将用到的less变量声明改为sass变量声明("@" > "$").
 
-## 主题开发
-在/src/styles/themes/default.less中定义变量, 并在每个模块自身的样式文件中引入并使用, 如:  
-button.less
-```less
-@import 'styles/base.less';
-@import 'styles/themes/default.less';
+## 别名
+默认在 babel.config.js 中配置了 Fonts, Images, Styles, Utils 别名.
+```js
+['babel-plugin-module-resolver', {
+    alias: {
+        'Fonts': './src/fonts',
+        'Images': './src/images',
+        'Styles': './src/styles',
+        'Utils': './src/utils'
+    }
+}]
+```
+注意: 仅适用于JS文件.
+
+## 开发
+### 环境配置
+在 package.json 中配置:
+```json
+  ...
+  "devEnvironments": {
+    "servers": {
+      "local": 8080,    // 本地web服务端口, 默认为 8080
+      "mock": 3000      // 本地mock服务端口, 默认为 3000
+    },
+    "proxies": {        // 代理服务配置, 参考 @easytool/proxy-config 库文档
+      "/api": "http://localhost:3000"
+    },
+    "globals": {        // 全局变量配置, 仅适用于开发环境
+      "__DEV__": true,
+      "process.env.NODE_ENV": "development"
+    }
+  }
+```
+注意: 该配置仅适用于开发环境.
+
+### 服务
+1. 执行 bin/startup.bat 启动本地 web 服务, 组件开发过程中可在 /test/app.js 中调试用户使用组件的情况.
+1. 执行 bin/mock.bat 启动 mock 服务, 如有数据需求可在 mock 服务中配置模拟数据.
+
+### 测试
+执行 bin/test.bat 启动单元测试, 需先在 /test/ 目录中对组件进行测试编码(测试框架为jest).
+
+## 打包配置
+```json
+{
+  "name": "my-ui",                  // 模块名称
+  "version": "0.1.0",               // 模块版本
+  "description": "Use for development UI library.",     // 模块描述  
+  "main": "lib/index.js",           // 模块引入主路径
+  "module": "es/index.js",          // 模块esm格式引入路径
+  "license": "MIT",                 // 模块使用协议, 默认MIT
+  "repository": {                   // 模块保存的仓库地址
+    "type": "git",
+    "url": ""
+  },
+  "homepage": "",                   // 模块首页地址
+  "bugs": {                         // 模块提issue地址
+    "url": ""
+  },
+  "keywords": [],                   // 模块搜索关键字
+  "files": [                        // 模块打包上传到npm服务器的文件
+    "dist",
+    "lib",
+    "es",
+    "LICENSE",
+    "README.md"
+  ],
+  ...
+  "parcels": {                      // 生产环境打包配置
+    "library": "MyLib",             // 模块打包为 umd 格式时, 使用的全局变量名称
+    "external": [],                 // 模块打包时排除的依赖项, 参考 webpack > externals 文档说明
+  }
+}
+```
+其余配置请参考npm官方文档.
+
+## 部署
+### 1. 注册和登陆
+注册npm账号, 执行后会依次提示输入用户名, 密码, 邮箱.
+```
+npm adduser  
+```
+
+登录npm服务, 便于发布.
+```
+npm login
+```
+
+### 2. 发布
+1. 发布X版本号执行 bin/publish-major.bat, 表示有重大更新, 并且不兼容老的版本.
+2. 发布Y版本号执行 bin/publish-minor.bat, 表示有功能更新, 并且兼容老的版本.
+3. 发布Z版本号执行 bin/publish-patch.bat, 表示有bug修复, 并且兼容老的版本.
+4. 发布预发布版本号执行 bin/publish-prerelease.bat, 表示该版本还在开发测试中, 可能会有较大改动.
+5. 从服务端卸载模块执行 bin/unpublish.bat.
+
+## 目录结构
+```
+bin                                         // 可执行命令目录.
+|-build-cjs.bat                             // 将源代码编译为 commonjs 格式保存到lib目录.
+|-build-dev.bat                             // 将源代码编译为调试格式保存到build目录.
+|-build-esm.bat                             // 将源代码编译为 esm 格式保存到es目录.
+|-build-umd.bat                             // 将源代码编译为 umd 格式保存到build目录.
+|-git-push.bat                              // 更新 git 版本号.
+|-lint-css.bat                              // 执行 stylelint 生产环境 style 代码校验.
+|-lint-js.bat                               // 执行 eslint 生产环境 JS 代码校验.
+|-mock.bat                                  // 启动mock服务(window)
+|-mock.sh                                   // 启动mock服务(linux)
+|-package.bat                               // 将代码编译打包(window).
+|-package.sh                                // 将代码编译打包(linux).
+|-publish-patch.bat                         // 发布新Z版本.
+|-publish-prerelease.bat                    // 发布预发布版.
+|-startup-mock.bat                          // 同时启动web服务和mock服务(window)
+|-startup-mock.sh                           // 同时启动web服务和mock服务(linux)
+|-startup.bat                               // 启动开发环境web服务(window)
+|-startup.sh                                // 启动开发环境web服务(linux)
+|-test.bat                                  // 执行jest单元测试(window)
+|-test.sh                                   // 执行jest单元测试(linux)
+|-unpublish.bat                             // 用于从服务端下架模块.
+build                                       // 代码通过webpack编译后生成的临时目录.
+dist                                        // 代码打包为 umd 格式后存放的目录.
+es                                          // 代码打包为 esm 格式后存放的目录.
+lib                                         // 代码打包为 commonjs 格式后存放的目录.
+src                                         // 项目源码目录
+|-component1                                // 模块组件1
+    |-images                                // 组件使用的图片
+    |-styles                                // 组件的样式文件
+        |-index.js                          // 组件样式的入口文件
+        |-index.less                        // 组件样式less文件
+    |-Component1.js                         // 组件js文件
+    |-index.js                              // 组件的入口文件
+|-component2                                // 模块组件2
+    |-images                                // 组件使用的图片
+    |-styles                                // 组件的样式文件
+        |-index.js                          // 组件样式的入口文件
+        |-index.less                        // 组件样式less文件
+    |-Component2.js                         // 组件js文件
+    |-index.js                              // 组件的入口文件
+|-fonts                                     // 字体文件存放目录
+|-images                                    // 公共图片存放目录
+|-styles                                    // 公共样式存放目录
+    |-themes                                // 主题样式存放目录(主要是一些全局变量, 供所有组件引用)
+        |-default.less                      // 默认的主题变量配置
+    |-base.less                             // 全局的基础样式文件
+    |-fonts.less                            // 字体样式文件
+    |-index.less                            // 所有组件样式的入口文件
+|-utils                                     // 模块内部工具文件.
+    |-common.js                             // 常用工具库.
+|-index.js                                  // 组件库打包的入口文件.
+test                                        // 测试代码目录
+|-component1                                // 测试组件1
+    |-Component1.js                         // 测试代码
+|-app.js                                    // 本地Web引用测试文件(仅用于调试, 不会打包).
+|-template.html                             // 开发调试时的页面模板文件(仅用于调试, 不会打包).
+.eslintignore                               // eslint忽略校验配置文件.
+.eslintrc.json                              // eslint开发环境代码校验配置文件.
+.eslintrc.prod.json                         // eslint生产环境代码校验配置文件, 比开发环境更加严格, 发版和提交代码时会自动执行此配置校验代码.
+.gitignore                                  // git忽略提交配置文件.
+.stylelintignore                            // stylelint忽略校验配置文件.
+babel.config.js                             // babel配置文件.
+fileTransformer.js                          // jest单元测试时的文件转换器.
+gulpfile.js                                 // gulp配置文件.
+jest.config.js                              // jest单元测试配置.
+package.json                                // npm module配置文件.
+postcss.config.js                           // postcss配置文件
+README.md                                   // 项目开发文档.
+stylelint.config.js                         // stylelint 配置文件
+webpack.config.base.js                      // webpack公共配置文件.
+webpack.config.dev.babel.js                 // webpack开发环境打包umd格式配置文件.
+webpack.config.prod.babel.js                // webpack生产环境打包umd格式配置文件.
 ```
