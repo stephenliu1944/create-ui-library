@@ -16,8 +16,8 @@ module.exports = function(api) {
             ],
             // 默认为 "auto". "false" 保持 es module 格式.
             modules: process.env.BABEL_ENV === 'esm' ? false : 'commonjs'
-        }]
-        // '@babel/preset-react'
+        }],
+        '@babel/preset-react'
     ];
     var plugins = [
         '@babel/plugin-transform-runtime',

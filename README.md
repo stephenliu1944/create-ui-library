@@ -9,7 +9,7 @@
 ## License
 
 # 项目介绍
-脚手架用于开发基于 ES6 的 UI 库.
+脚手架用于开发基于 React 的 UI 库.
 
 ## 特性
 - 内置单元测试.
@@ -17,10 +17,11 @@
 - 支持打包 UMD, ESModule(esm), CommonJS(cjs) 格式.
 - 支持按需引入.
 - 支持主题定制(less/sass).
-- 支持扩展 React, Vue 等框架.
 
 ## 项目依赖
 ```
+react:      v16+
+react-dom:  v16+
 node:       v8+
 webpack:    v4
 eslint:     v5
@@ -60,20 +61,6 @@ npm install
     }
 }
 ```
-
-## 扩展React
-### 1. 安装依赖
-```
-// 用于开发环境测试
-npm i -D react react-dom @babel/preset-react
-// 用于表明库依赖, 推荐在 package.json > peerDependencies 中配置, 具体参考npm文档
-npm i -S react
-```
-
-### 2. 修改文件
-1. 移除 babel.config.js 第20行注释 '@babel/preset-react'.
-2. 将所有组件后缀改为jsx扩展名.
-3. 将/test/app.js 中的 DOM 操作改为 react-dom 实现.
 
 ## 使用Sass
 ### 1. 安装依赖
