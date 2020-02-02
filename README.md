@@ -9,14 +9,14 @@
 ## License
 
 # 项目介绍
-脚手架用于开发 UI 组件库.
+脚手架用于开发基于ES6 的 UI 库.
 
 ## 特性
 - 内置单元测试.
 - 内置eslint, stylelint代码检测.
 - 支持打包 UMD, ESModule(esm), CommonJS(cjs) 格式.
 - 支持按需引入.
-- 支持定制主题(less/sass).
+- 支持主题定制(less/sass).
 - 支持扩展 React, Vue 等框架.
 
 ## 项目依赖
