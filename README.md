@@ -96,9 +96,9 @@ npm un -D less less-loader gulp-less
 
 ### 2. 修改文件
 1. gulpfile.js 删除第9, 65-68, 81, 118行代码. 移除第10-13, 71-75, 82, 119行注释.
-2. webpack.config.base.js 删除第44行代码, 移除第46-52行注释.
-3. webpack.config.prod.babel.js 删除第53行代码, 移除第54行注释.
-4. 将所有less文件后缀改为scss, 将用到的less变量声明改为sass变量声明("@" > "$").
+2. webpack.config.base.js 删除第 44 行代码, 移除第 46-52 行注释.
+3. webpack.config.prod.babel.js 第52行 "index.less" 后缀改为 "scss".
+4. 将所有 less 文件后缀改为 scss, 将用到的 less 变量声明改为 sass 变量声明("@" > "$").
 
 ## 别名
 默认在 babel.config.js 中配置了 Fonts, Images, Styles, Utils 别名.

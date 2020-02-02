@@ -49,9 +49,8 @@ export default ParcelList.map(config => {
         entry: {
             // js 和 css 是分离的所以分开打包
             main: [
-                './src/index.js', 
-                './src/styles/index.less'
-                // './src/styles/index.scss'
+                './src/styles/index.less',
+                './src/index.js'                    // index.js 要放最后: When combining with the output.library option: If an array is passed only the last item is exported.
             ]
         },
         output: {
