@@ -13,6 +13,7 @@ var less = require('gulp-less');
 // var sourcemaps = require('gulp-sourcemaps');
 var bump = require('gulp-bump');
 var eslint = require('gulp-eslint');
+var stylelint = require('gulp-stylelint');
 var eventStream = require('event-stream');
 var pkg = require('./package.json');
 
@@ -47,20 +48,30 @@ gulp.task('clean', gulp.parallel('clean-dist', 'clean-es', 'clean-lib'));
  * 代码校验
  */
 // JS校验
-gulp.task('eslint', () => {
-    return gulp.src([`${SRC_PATH}/**/*.@(js|jsx)`, `!${SRC_PATH}/dev.js`])
+gulp.task('lint-js', () => {
+    return gulp.src([`${SRC_PATH}/**/*.@(js|jsx)`])
             .pipe(eslint({
-                fix: true,      // 自动修复错误
+                fix: true,          // 自动修复部分错误
                 configFile: '.eslintrc.prod.json'
             }))
             .pipe(eslint.failOnError());
+});
+// CSS校验
+gulp.task('lint-css', () => {
+    return gulp.src([`${SRC_PATH}/**/*.@(less|scss|sass)`])
+            .pipe(stylelint({
+                fix: true,          // 自动修复部分错误
+                failAfterError: true,
+                configFile: 'stylelint.config.js',
+                reporters: [{ formatter: 'verbose', console: true }]
+            }));
 });
 
 /**
  * 编译
  */
 // 编译 less, sass, css 文件
-gulp.task('build-css', () => {
+gulp.task('build-css', gulp.series('lint-css', () => {
     // 编译 less
     var lessStream = gulp.src(`${SRC_PATH}/**/*.@(less)`)
             .pipe(less({
@@ -84,9 +95,9 @@ gulp.task('build-css', () => {
     ).pipe(postcss());
     
     return mergeStream.pipe(gulp.dest(DEST_PATH));
-});
+}));
 // 将JS编译为 es module 或 commonjs 格式(根据 BABEL_ENV 参数), 引用的图片转换为base64格式
-gulp.task('build-js', gulp.series('eslint', () => {
+gulp.task('build-js', gulp.series('lint-js', () => {
     return gulp.src(`${SRC_PATH}/**/*.@(js|jsx)`)
             .pipe(babel())
             .pipe(replace(/\.jsx/g, '.js'))                   // 替换 jsx 文件名和文件内的引用名
