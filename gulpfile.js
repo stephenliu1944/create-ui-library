@@ -47,15 +47,6 @@ gulp.task('clean', gulp.parallel('clean-dist', 'clean-es', 'clean-lib'));
 /**
  * 代码校验
  */
-// JS校验
-gulp.task('lint-js', () => {
-    return gulp.src([`${SRC_PATH}/**/*.@(js|jsx)`])
-            .pipe(eslint({
-                fix: true,          // 自动修复部分错误
-                configFile: '.eslintrc.prod.json'
-            }))
-            .pipe(eslint.failOnError());
-});
 // CSS校验
 gulp.task('lint-css', () => {
     return gulp.src([`${SRC_PATH}/**/*.@(less|scss|sass)`])
@@ -65,6 +56,15 @@ gulp.task('lint-css', () => {
                 configFile: 'stylelint.config.js',
                 reporters: [{ formatter: 'verbose', console: true }]
             }));
+});
+// JS校验
+gulp.task('lint-js', () => {
+    return gulp.src([`${SRC_PATH}/**/*.@(js|jsx)`])
+            .pipe(eslint({
+                fix: true,          // 自动修复部分错误
+                configFile: '.eslintrc.prod.json'
+            }))
+            .pipe(eslint.failOnError());
 });
 
 /**
