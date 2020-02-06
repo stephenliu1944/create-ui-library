@@ -12,9 +12,10 @@ var less = require('gulp-less');
 // var importOnce = require('node-sass-import-once');
 // var sourcemaps = require('gulp-sourcemaps');
 var bump = require('gulp-bump');
+var clone = require('gulp-clone');
 var eslint = require('gulp-eslint');
 var stylelint = require('gulp-stylelint');
-var eventStream = require('event-stream');
+var { merge } = require('event-stream');
 var pkg = require('./package.json');
 
 const MODULE = process.env.BABEL_ENV;
@@ -45,73 +46,55 @@ gulp.task('clean-lib', () => {
 gulp.task('clean', gulp.parallel('clean-dist', 'clean-es', 'clean-lib'));
 
 /**
- * 代码校验
- */
-// CSS校验
-gulp.task('lint-css', () => {
-    return gulp.src([`${SRC_PATH}/**/*.@(less|scss|sass)`])
-            .pipe(stylelint({
-                fix: true,          // 自动修复部分错误
-                failAfterError: true,
-                configFile: 'stylelint.config.js',
-                reporters: [{ formatter: 'verbose', console: true }]
-            }));
-});
-// JS校验
-gulp.task('lint-js', () => {
-    return gulp.src([`${SRC_PATH}/**/*.@(js|jsx)`])
-            .pipe(eslint({
-                fix: true,          // 自动修复部分错误
-                configFile: '.eslintrc.prod.json'
-            }))
-            .pipe(eslint.failOnError());
-});
-
-/**
  * 编译
  */
-// 编译 less, sass, css 文件
-gulp.task('build-css', gulp.series('lint-css', () => {
-    // 编译 less
-    var lessStream = gulp.src(`${SRC_PATH}/**/*.@(less)`)
-            .pipe(less({
-                rewriteUrls: 'local'
+// 将 less, sass, postcss 编译为 css
+gulp.task('build-css', () => {
+    var lintStream = gulp.src(`${SRC_PATH}/**/*.@(less|scss|sass)`)
+            // 校验代码规范        
+            .pipe(stylelint({           
+                fix: true,              // 自动修复部分错误
+                cache: true,
+                failAfterError: true,
+                configFile: 'stylelint.config.js',
+                reporters: [{ formatter: 'string', console: true }]             // 控制台输出日志
             }));
-    
-    // 编译 sass
-    // var sassStream = gulp.src(`${SRC_PATH}/**/*.@(scss|sass)`)
-    //         .pipe(sourcemaps.init())   
-    //         .pipe(sass({ importer: importOnce }).on('error', sass.logError))    // 过滤文件中的重复导入           
-    //         .pipe(gulpResolveUrl())                                             // 等于 less 的 rewriteUrls 配置, 需要搭配sourcemaps使用
-    //         .pipe(sourcemaps.write());
-
+    // 复制 less, sass 文件流
+    var cloneStream = lintStream.pipe(clone());
+    // 编译 less, sass 文件流
+    var compileStream = lintStream
+            // 编译less
+            .pipe(less({ rewriteUrls: 'local' }));
+            // 编译sass
+            /*
+            .pipe(sourcemaps.init())   
+            .pipe(sass({ importer: importOnce }).on('error', sass.logError))    // 过滤重复导入的文件
+            .pipe(gulpResolveUrl())                                             // 等于 less 的 rewriteUrls 配置, 需要搭配sourcemaps使用
+            .pipe(sourcemaps.write());
+            */
     var cssStream = gulp.src(`${SRC_PATH}/**/*.@(css)`);
-
-    // 编译 postcss                         
-    var mergeStream = eventStream.merge(
-        lessStream, 
-        // sassStream,
-        cssStream
-    ).pipe(postcss());
-    
-    return mergeStream.pipe(gulp.dest(DEST_PATH));
-}));
-// 将JS编译为 es module 或 commonjs 格式(根据 BABEL_ENV 参数), 引用的图片转换为base64格式
-gulp.task('build-js', gulp.series('lint-js', () => {
+    // 编译 postcss
+    var styleStream = merge(compileStream, cssStream)
+            .pipe(postcss());
+    // 将 less, scss 源文件和编译后的 css 文件共同拷贝到目的地.
+    return merge(cloneStream, styleStream).pipe(gulp.dest(DEST_PATH));    
+});
+// 将 JS 编译为 es module 或 commonjs 格式(根据 BABEL_ENV 参数), JS引用的图片转换为 base64 格式
+gulp.task('build-js', () => {
     return gulp.src(`${SRC_PATH}/**/*.@(js|jsx)`)
-            .pipe(babel())
+            .pipe(eslint({                                    // 校验代码规范
+                fix: true,                                    // 自动修复部分错误
+                configFile: '.eslintrc.prod.json'
+            }))
+            .pipe(eslint.failAfterError())
+            .pipe(babel())                                    // 代码编译
             .pipe(replace(/\.jsx/g, '.js'))                   // 替换 jsx 文件名和文件内的引用名
             .pipe(gulp.dest(DEST_PATH));
-}));
+});
 
 /**
  * 拷贝
  */
-// 复制 less, sass 源文件
-gulp.task('copy-style', () => {
-    return gulp.src(`${SRC_PATH}/**/*.@(le|sc|sa)ss`)
-            .pipe(gulp.dest(DEST_PATH));
-});
 // 复制图片
 gulp.task('copy-image', () => {
     return gulp.src(`${SRC_PATH}/**/*.@(png|gif|jpg|jpeg|svg)`)
@@ -131,7 +114,7 @@ gulp.task('copy-umd', () => {
             .pipe(gulp.dest(DIST_PATH));
 });
 // 整体构建
-gulp.task('build', gulp.series('build-css', 'build-js', 'copy-style', 'copy-image', 'copy-font'));
+gulp.task('build', gulp.series('build-css', 'build-js', 'copy-image', 'copy-font'));
 
 /**
  * 监听
