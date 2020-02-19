@@ -1,13 +1,6 @@
-const ENV = {
-    DEVELOPMENT: 'development',
-    PRODUCTION: 'production',
-    TEST: 'test'
-};
-
 module.exports = function(api) {
     api.cache(true);
 
-    var env = process.env.NODE_ENV;
     var presets = [
         ['@babel/preset-env', {
             targets: [
@@ -35,20 +28,25 @@ module.exports = function(api) {
                 'Styles': './src/styles',
                 'Utils': './src/utils'
             }
-        }],
-        // JS 引入的图片全部转成 base64 格式, 避免打包后路径错误的问题. umd, esm, lib 格式打包时都会用到.
-        ['babel-plugin-inline-import-data-uri', {
-            extensions: ['png', 'jpg', 'jpeg', 'gif', 'svg']
         }]
     ];
 
+    // JS 导入的图片全部转成 base64 格式, 避免用户在使用时发生路径错误的问题. 仅对 webpack 打包有效.
+    if (!process.env.BABEL_ENV) {
+        plugins.push(
+            ['babel-plugin-inline-import-data-uri', {
+                extensions: ['png', 'jpg', 'jpeg', 'gif', 'svg']
+            }]
+        );
+    }
+
     // 根据需要为不同环境增加配置
-    switch (env) {
-        case ENV.DEVELOPMENT:
+    switch (process.env.NODE_ENV) {
+        case 'development':
             break;
-        case ENV.PRODUCTION:        
+        case 'production':        
             break;
-        case ENV.TEST:
+        case 'test':
             break;
     }
 
