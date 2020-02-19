@@ -8,7 +8,6 @@ const BUILD_PATH = 'build';
 export default function(config) {
     return {
         output: {
-            publicPath: '/',
             path: path.resolve(__dirname, BUILD_PATH)
         },
         resolve: {
@@ -72,7 +71,7 @@ export default function(config) {
                 use: [{
                     loader: 'url-loader',
                     options: {
-                        limit: 1,
+                        limit: false,
                         name: 'images/[name].[ext]'
                     }
                 }]
@@ -85,7 +84,7 @@ export default function(config) {
                 use: [{
                     loader: 'url-loader',
                     options: {
-                        limit: 1,
+                        limit: false,
                         name: 'fonts/[name].[ext]'
                     }
                 }]
