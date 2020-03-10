@@ -93,7 +93,7 @@ gulp.task('build-js', () => {
 });
 
 /**
- * 拷贝
+ * 拷贝文件
  */
 // 复制图片
 gulp.task('copy-image', () => {
@@ -102,7 +102,12 @@ gulp.task('copy-image', () => {
 });
 // 复制字体
 gulp.task('copy-font', () => {
-    return gulp.src(`${SRC_PATH}/**/*.@(woff|eot|ttf||otf)`)
+    return gulp.src(`${SRC_PATH}/**/*.@(woff|eot|ttf|otf)`)
+            .pipe(gulp.dest(DEST_PATH));
+});
+// 复制json
+gulp.task('copy-json', () => {
+    return gulp.src(`${SRC_PATH}/**/*.@(json)`)
             .pipe(gulp.dest(DEST_PATH));
 });
 // 复制 umd 格式代码到 dist 目录
@@ -114,7 +119,7 @@ gulp.task('copy-umd', () => {
             .pipe(gulp.dest(DIST_PATH));
 });
 // 整体构建
-gulp.task('build', gulp.series('build-css', 'build-js', 'copy-image', 'copy-font'));
+gulp.task('build', gulp.series('build-css', 'build-js', 'copy-image', 'copy-font', 'copy-json'));
 
 /**
  * 监听
