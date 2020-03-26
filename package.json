@@ -31,7 +31,7 @@
     "mock": "mock-server ./mock/data --static ./mock/static --config ./mock/mock.config.js --watch",
     "start:mock": "concurrently \"npm start\" \"npm run mock\"",
     "lint:js": "eslint -c .eslintrc.prod.json src/ --ext .js,.jsx --fix",
-    "lint:css": "stylelint src/**/*.css src/**/*.less src/**/*.scss src/**/*.sass --cache --fix",
+    "lint:css": "stylelint \"src/**/*.{css,less,scss,sass}\" --cache --fix",
     "test": "jest",
     "package": "npm run build:umd && npm run build:esm && npm run build:cjs",
     "publish:prerelease": "npm run package && gulp version-prerelease && npm publish",
