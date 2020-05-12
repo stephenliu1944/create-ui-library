@@ -62,7 +62,7 @@ export default webpackMerge(baseConfig(), {
         }),
         new HtmlWebpackPlugin({                             // 主页面入口index.html
             filename: 'index.html',
-            template: './test/template.html'
+            template: './test/template.ejs'
         })
     ]
 });
