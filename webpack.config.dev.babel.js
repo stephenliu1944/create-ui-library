@@ -4,14 +4,14 @@ import webpackMerge from 'webpack-merge';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import { settings } from '@easytool/proxy-config';
-import define from '@easytool/define-config';
+import proxyConfig from '@easytool/proxy-config';
+import defineConfig from '@easytool/define-config';
 import baseConfig from './webpack.config.base';
 import pkg from './package.json';
 
 const JS_FILE = pkg.name + '.js';
 const CSS_FILE = pkg.name + '.css';
-const { servers, proxies, globals } = pkg.devEnvironments;
+const { server, proxy, globals } = pkg.devEnvironments;
 
 export default webpackMerge(baseConfig(), {
     mode: 'development',
@@ -24,14 +24,14 @@ export default webpackMerge(baseConfig(), {
     devtool: 'cheap-module-eval-source-map',
     devServer: {
         host: '0.0.0.0',
-        port: servers.local,
+        port: server.local,
         disableHostCheck: true,
         compress: true,             // 开起 gzip 压缩
         inline: true,
         historyApiFallback: true,   // browserHistory路由
         contentBase: path.resolve(__dirname, 'build'),
         proxy: {
-            ...settings(proxies)
+            ...proxyConfig(proxy)
         }
     },
     module: {
@@ -58,7 +58,7 @@ export default webpackMerge(baseConfig(), {
         }),
         // 配置全局变量
         new webpack.DefinePlugin({
-            ...define(globals)
+            ...defineConfig(globals)
         }),
         new HtmlWebpackPlugin({                             // 主页面入口index.html
             filename: 'index.html',
