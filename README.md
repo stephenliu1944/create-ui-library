@@ -120,11 +120,11 @@ npm un -D less less-loader gulp-less
 ```
   ...
   "devEnvironments": {
-    "servers": {
+    "server": {
       "local": 8080,    // 本地web服务端口, 默认为 8080
       "mock": 3000      // 本地mock服务端口, 默认为 3000
     },
-    "proxies": {        // 代理服务配置, 参考 @easytool/proxy-config 库文档
+    "proxy": {        // 代理服务配置, 参考 @easytool/proxy-config 库文档
       "/api": "http://localhost:3000"
     },
     "globals": {        // 全局变量配置, 仅适用于开发环境
@@ -168,9 +168,9 @@ npm un -D less less-loader gulp-less
     "README.md"
   ],
   ...
-  "parcels": {                      // 生产环境打包配置
+  "parcel": {                       // 生产环境打包配置
     "library": "MyLib",             // 模块打包为 umd 格式时, 使用的全局变量名称
-    "externals": [],                 // 模块打包时排除的依赖项, 参考 webpack > externals 文档说明
+    "externals": [],                // 模块打包时排除的依赖项, 参考 webpack > externals 文档说明
   }
 }
 ```
