@@ -7,7 +7,7 @@ import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 import baseConfig from './webpack.config.base';
 import pkg from './package.json';
 
-const { library, external } = pkg.parcels;
+const { library, externals } = pkg.parcels;
 const JS_FILE = pkg.name + '.js';
 const CSS_FILE = pkg.name + '.css';
 const MIN_JS_FILE = pkg.name + '.min.js';
@@ -57,7 +57,7 @@ export default ParcelList.map(config => {
             library,
             libraryTarget: 'umd'
         },
-        externals: external,
+        externals,
         module: {
             rules: [{
                 /**
