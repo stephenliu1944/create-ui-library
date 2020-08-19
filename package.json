@@ -137,6 +137,6 @@
   },
   "parcels": {
     "library": "MyUI",
-    "external": []
+    "externals": []
   }
 }
