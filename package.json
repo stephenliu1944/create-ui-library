@@ -144,7 +144,7 @@
   },
   "parcels": {
     "library": "MyUI",
-    "external": [
+    "externals": [
       "react",
       "react-dom"
     ]

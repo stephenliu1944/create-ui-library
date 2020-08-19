@@ -157,7 +157,7 @@ npm un -D less less-loader gulp-less
   ...
   "parcels": {                      // 生产环境打包配置
     "library": "MyLib",             // 模块打包为 umd 格式时, 使用的全局变量名称
-    "external": [],                 // 模块打包时排除的依赖项, 参考 webpack > externals 文档说明
+    "externals": [],                 // 模块打包时排除的依赖项, 参考 webpack > externals 文档说明
   }
 }
 ```
