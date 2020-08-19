@@ -7,7 +7,7 @@ import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 import baseConfig from './webpack.config.base';
 import pkg from './package.json';
 
-const { library, externals } = pkg.parcels;
+const { library, externals } = pkg.parcel;
 const JS_FILE = pkg.name + '.js';
 const CSS_FILE = pkg.name + '.css';
 const MIN_JS_FILE = pkg.name + '.min.js';
