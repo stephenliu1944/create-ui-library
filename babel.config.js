@@ -31,15 +31,6 @@ module.exports = function(api) {
         }]
     ];
 
-    // JS 导入的图片全部转成 base64 格式, 避免用户在使用时发生路径错误的问题. 仅对 webpack 打包有效.
-    if (process.env.INLINE_IMPORT) {
-        plugins.push(
-            ['babel-plugin-inline-import-data-uri', {
-                extensions: ['png', 'jpg', 'jpeg', 'gif', 'svg']
-            }]
-        );
-    }
-
     // 根据需要为不同环境增加配置
     switch (process.env.NODE_ENV) {
         case 'development':
