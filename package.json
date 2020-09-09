@@ -23,7 +23,7 @@
   ],
   "scripts": {
     "build:dev": "cross-env NODE_ENV=development webpack --config webpack.config.dev.babel.js --colors --display-error-details",
-    "build:prod": "cross-env NODE_ENV=production INLINE_IMPORT=true webpack --config webpack.config.prod.babel.js --colors --display-error-details",
+    "build:prod": "cross-env NODE_ENV=production webpack --config webpack.config.prod.babel.js --colors --display-error-details",
     "build:esm": "gulp clean-es && cross-env NODE_ENV=production BABEL_ENV=esm gulp build",
     "build:cjs": "gulp clean-lib && cross-env NODE_ENV=production BABEL_ENV=commonjs gulp build",
     "build:umd": "gulp clean-dist && npm run build:prod && gulp copy-umd",
@@ -130,9 +130,7 @@
     "proxy": {
       "/api": "http://localhost:3000"
     },
-    "globals": {
-      "process.env.NODE_ENV": "development"
-    }
+    "globals": {}
   },
   "parcel": {
     "library": "MyUI",
