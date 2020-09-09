@@ -1,1 +1,1 @@
-__webpack_public_path__ = window.__MY_UI_PUBLIC_PATH__; // 对外暴露 publicPath 属性, 根据需求自定义 __MY_UI_PUBLIC_PATH__ 名称.
+__webpack_public_path__ = window.__MY_UI_PUBLIC_PATH__ || ''; // 对外暴露 publicPath 属性, 根据需求自定义 __MY_UI_PUBLIC_PATH__ 名称.

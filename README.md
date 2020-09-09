@@ -245,8 +245,8 @@ src                                         // 项目源码目录
     |-index.less                            // 所有组件样式的入口文件
 |-utils                                     // 模块内部工具文件.
     |-common.js                             // 常用工具库.
-|-publicPath.js                             // 对外暴露的 publicPath 属性, 用于项目动态设置UI资源路径.
 |-index.js                                  // 组件库打包的入口文件.
+|-publicPath.js                             // 对外暴露的 publicPath 属性, 用于项目动态设置UI资源路径.
 test                                        // 测试代码目录
 |-component1                                // 测试组件1
     |-Component1.js                         // 测试代码
