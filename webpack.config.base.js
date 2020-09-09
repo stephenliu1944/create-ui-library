@@ -2,13 +2,15 @@ import path from 'path';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import StyleLintPlugin from 'stylelint-webpack-plugin';
+import { name } from './package.json';
 
 const BUILD_PATH = 'build';
 
 export default function(config) {
     return {
         output: {
-            path: path.resolve(__dirname, BUILD_PATH)
+            path: path.resolve(__dirname, BUILD_PATH),
+            jsonpFunction: name            // 避免多个应用之间 jsonpFunction 名冲突
         },
         resolve: {
             extensions: ['.js', '.jsx', '.css', '.scss', '.sass', '.less']
