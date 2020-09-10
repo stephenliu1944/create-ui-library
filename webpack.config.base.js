@@ -10,7 +10,7 @@ export default function(config) {
     return {
         output: {
             path: path.resolve(__dirname, BUILD_PATH),
-            jsonpFunction: name     // 避免多个应用之间 jsonpFunction 名冲突
+            jsonpFunction: name            // 避免多个应用之间 jsonpFunction 名冲突
         },
         resolve: {
             extensions: ['.js', '.jsx', '.css', '.scss', '.sass', '.less']
@@ -73,7 +73,7 @@ export default function(config) {
                 use: [{
                     loader: 'url-loader',
                     options: {
-                        limit: false,
+                        limit: 10,
                         name: 'images/[name].[ext]'
                     }
                 }]
@@ -86,7 +86,7 @@ export default function(config) {
                 use: [{
                     loader: 'url-loader',
                     options: {
-                        limit: false,
+                        limit: 10,
                         name: 'fonts/[name].[ext]'
                     }
                 }]
