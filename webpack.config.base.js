@@ -73,7 +73,7 @@ export default function(config) {
                 use: [{
                     loader: 'url-loader',
                     options: {
-                        limit: false,
+                        limit: 10,
                         name: 'images/[name].[ext]'
                     }
                 }]
@@ -86,7 +86,7 @@ export default function(config) {
                 use: [{
                     loader: 'url-loader',
                     options: {
-                        limit: false,
+                        limit: 10,
                         name: 'fonts/[name].[ext]'
                     }
                 }]
