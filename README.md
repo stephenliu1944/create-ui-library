@@ -240,8 +240,8 @@ test                                        // 测试代码目录
 |-app.js                                    // 本地Web引用测试文件(仅用于调试, 不会打包).
 |-template.ejs                              // 开发调试时的页面模板文件(仅用于调试, 不会打包).
 .eslintignore                               // eslint忽略校验配置文件.
-.eslintrc.json                              // eslint开发环境代码校验配置文件.
-.eslintrc.prod.json                         // eslint生产环境代码校验配置文件, 比开发环境更加严格, 发版和提交代码时会自动执行此配置校验代码.
+.eslintrc.js                                // eslint开发环境代码校验配置文件.
+.eslintrc.prod.js                           // eslint生产环境代码校验配置文件, 比开发环境更加严格, 发版和提交代码时会自动执行此配置校验代码.
 .gitignore                                  // git忽略提交配置文件.
 .stylelintignore                            // stylelint忽略校验配置文件.
 babel.config.js                             // babel配置文件.

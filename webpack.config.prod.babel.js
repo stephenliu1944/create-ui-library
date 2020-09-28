@@ -1,4 +1,3 @@
-import path from 'path';
 import webpackMerge from 'webpack-merge';
 import TerserPlugin from 'terser-webpack-plugin';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
@@ -44,7 +43,7 @@ const ParcelList = [{
 }];
 
 export default ParcelList.map(config => {
-    return webpackMerge(baseConfig(), {
+    return webpackMerge(baseConfig(config.mode), {
         // 公共配置
         entry: {
             // js 和 css 是分离的所以分开打包
@@ -58,23 +57,6 @@ export default ParcelList.map(config => {
             library,
             libraryTarget: 'umd'
         },
-        externals,
-        module: {
-            rules: [{
-                /**
-                 * eslint代码规范校验
-                 */
-                test: /\.(js|jsx)$/,
-                enforce: 'pre',
-                include: path.resolve(__dirname, 'src'),
-                use: [{
-                    loader: 'eslint-loader',
-                    options: {
-                        fix: true,
-                        configFile: '.eslintrc.prod.json'
-                    }
-                }]
-            }]
-        }
+        externals
     }, config);
 });

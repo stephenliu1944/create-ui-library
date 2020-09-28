@@ -5,21 +5,37 @@ import StyleLintPlugin from 'stylelint-webpack-plugin';
 import { name } from './package.json';
 
 const BUILD_PATH = 'build';
+const CONTENT_HASH = '[contenthash:4]';
 
-export default function(config) {
+export default function(ENV) {
     return {
         output: {
             path: path.resolve(__dirname, BUILD_PATH),
             jsonpFunction: name            // 避免多个应用之间 jsonpFunction 名冲突
         },
         resolve: {
-            extensions: ['.js', '.jsx', '.css', '.scss', '.sass', '.less']
+            extensions: ['.js', '.jsx', '.css', '.less', '.scss', '.sass']
         },
         optimization: {
             noEmitOnErrors: true
         },
         module: {
             rules: [{
+                /**
+                 * eslint代码规范校验
+                 */
+                test: /\.(js|jsx)$/,
+                enforce: 'pre',
+                include: path.resolve(__dirname, 'src'),
+                use: [{
+                    loader: 'eslint-loader',
+                    options: {
+                        fix: true,
+                        configFile: `.eslintrc${ENV === 'development' ? '' : '.prod'}.js`
+                    }
+                }]
+            }, {
+                // oneof
                 test: /\.(js|jsx)?$/,
                 exclude: /node_modules/,
                 use: [{
@@ -74,7 +90,7 @@ export default function(config) {
                     loader: 'url-loader',
                     options: {
                         limit: 10,
-                        name: 'images/[name].[ext]'
+                        name: `images/[name].${CONTENT_HASH}.[ext]`
                     }
                 }]
             }, {
