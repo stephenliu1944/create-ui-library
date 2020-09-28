@@ -124,12 +124,10 @@ npm un -D less less-loader gulp-less
       "local": 8080,    // 本地web服务端口, 默认为 8080
       "mock": 3000      // 本地mock服务端口, 默认为 3000
     },
-    "proxy": {        // 代理服务配置, 参考 @easytool/proxy-config 库文档
+    "proxy": {          // 代理服务配置, 参考 @easytool/proxy-config 库文档
       "/api": "http://localhost:3000"
     },
-    "globals": {        // 全局变量配置, 仅适用于开发环境
-      "__DEV__": true,
-      "process.env.NODE_ENV": "development"
+    "globals": {        // 全局变量配置, 仅适用于开发环境, 生产环境会保留变量名
     }
   }
 ```
@@ -248,14 +246,15 @@ src                                         // 项目源码目录
 |-utils                                     // 模块内部工具文件.
     |-common.js                             // 常用工具库.
 |-index.js                                  // 组件库打包的入口文件.
+|-publicPath.js                             // 对外暴露的 publicPath 属性, 用于项目动态设置UI资源路径.
 test                                        // 测试代码目录
 |-component1                                // 测试组件1
     |-Component1.js                         // 测试代码
 |-app.js                                    // 本地Web引用测试文件(仅用于调试, 不会打包).
-|-template.html                             // 开发调试时的页面模板文件(仅用于调试, 不会打包).
+|-template.ejs                              // 开发调试时的页面模板文件(仅用于调试, 不会打包).
 .eslintignore                               // eslint忽略校验配置文件.
-.eslintrc.json                              // eslint开发环境代码校验配置文件.
-.eslintrc.prod.json                         // eslint生产环境代码校验配置文件, 比开发环境更加严格, 发版和提交代码时会自动执行此配置校验代码.
+.eslintrc.js                                // eslint开发环境代码校验配置文件.
+.eslintrc.prod.js                           // eslint生产环境代码校验配置文件, 比开发环境更加严格, 发版和提交代码时会自动执行此配置校验代码.
 .gitignore                                  // git忽略提交配置文件.
 .stylelintignore                            // stylelint忽略校验配置文件.
 babel.config.js                             // babel配置文件.

@@ -13,7 +13,7 @@ const JS_FILE = pkg.name + '.js';
 const CSS_FILE = pkg.name + '.css';
 const { server, proxy, globals } = pkg.devEnvironments;
 
-export default webpackMerge(baseConfig(), {
+export default webpackMerge(baseConfig('development'), {
     mode: 'development',
     entry: {
         main: ['./test/app.js']
@@ -33,23 +33,6 @@ export default webpackMerge(baseConfig(), {
         proxy: {
             ...proxyConfig(proxy)
         }
-    },
-    module: {
-        rules: [{
-            /**
-             * eslint代码规范校验
-             */
-            test: /\.(js|jsx)$/,
-            enforce: 'pre',
-            include: path.resolve(__dirname, 'src'),
-            use: [{
-                loader: 'eslint-loader',
-                options: {
-                    fix: true,
-                    configFile: '.eslintrc.json'
-                }
-            }]
-        }]
     },
     plugins: [
         new CleanWebpackPlugin(),

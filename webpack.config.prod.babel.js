@@ -1,4 +1,3 @@
-import path from 'path';
 import webpackMerge from 'webpack-merge';
 import TerserPlugin from 'terser-webpack-plugin';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
@@ -44,36 +43,20 @@ const ParcelList = [{
 }];
 
 export default ParcelList.map(config => {
-    return webpackMerge(baseConfig(), {
+    return webpackMerge(baseConfig(config.mode), {
         // 公共配置
         entry: {
             // js 和 css 是分离的所以分开打包
             main: [
                 './src/styles/index.less',
-                './src/index.js'                    // index.js 要放最后: When combining with the output.library option: If an array is passed only the last item is exported.
+                './src/publicPath.js',
+                './src/index.js'                    // index.js 要放最后, issue: When combining with the output.library option: If an array is passed only the last item is exported.
             ]
         },
         output: {
             library,
             libraryTarget: 'umd'
         },
-        externals,
-        module: {
-            rules: [{
-                /**
-                 * eslint代码规范校验
-                 */
-                test: /\.(js|jsx)$/,
-                enforce: 'pre',
-                include: path.resolve(__dirname, 'src'),
-                use: [{
-                    loader: 'eslint-loader',
-                    options: {
-                        fix: true,
-                        configFile: '.eslintrc.prod.json'
-                    }
-                }]
-            }]
-        }
+        externals
     }, config);
 });

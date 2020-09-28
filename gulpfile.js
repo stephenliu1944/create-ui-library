@@ -71,8 +71,8 @@ gulp.task('build-css', () => {
     var compileStream = styleStream
             // 编译less
             .pipe(less({ rewriteUrls: 'local' }));
-            // 编译sass
-            /*
+    // 编译sass
+    /*
             .pipe(sourcemaps.init())   
             .pipe(sass({ importer: importOnce }).on('error', sass.logError))    // 过滤重复导入的文件
             .pipe(gulpResolveUrl())                                             // 等于 less 的 rewriteUrls 配置, 需要搭配sourcemaps使用
@@ -89,7 +89,7 @@ gulp.task('build-js', () => {
     return gulp.src(`${SRC_PATH}/**/*.@(js|jsx)`)
             .pipe(eslint({                                    // 校验代码规范
                 fix: true,                                    // 自动修复部分错误
-                configFile: '.eslintrc.prod.json'
+                configFile: '.eslintrc.prod.js'
             }))
             .pipe(eslint.failAfterError())
             .pipe(babel())                                    // 代码编译
