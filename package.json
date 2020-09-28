@@ -1,9 +1,16 @@
 {
   "name": "my-ui",
   "version": "0.1.0",
-  "description": "Use for development React UI library.",
   "main": "lib/index.js",
   "module": "es/index.js",
+  "parcel": {
+    "library": "MyUI",
+    "externals": [
+      "react",
+      "react-dom"
+    ]
+  },
+  "description": "Use for development React UI library.",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -138,12 +145,5 @@
       "/api": "http://localhost:3000"
     },
     "globals": {}
-  },
-  "parcel": {
-    "library": "MyUI",
-    "externals": [
-      "react",
-      "react-dom"
-    ]
   }
 }
