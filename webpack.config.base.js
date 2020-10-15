@@ -30,7 +30,7 @@ export default function(env) {
                     loader: 'eslint-loader',
                     options: {
                         fix: true,
-                        configFile: `.eslintrc${env === 'production' ? '.prod' : ''}.json`
+                        configFile: `.eslintrc${env === 'development' ? '' : '.prod'}.json`
                     }
                 }]
             }, {
