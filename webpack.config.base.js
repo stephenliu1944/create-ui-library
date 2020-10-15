@@ -7,7 +7,7 @@ import { name } from './package.json';
 const BUILD_PATH = 'build';
 const CONTENT_HASH = '[contenthash:4]';
 
-export default function(ENV) {
+export default function(env) {
     return {
         output: {
             path: path.resolve(__dirname, BUILD_PATH),
@@ -31,7 +31,7 @@ export default function(ENV) {
                     loader: 'eslint-loader',
                     options: {
                         fix: true,
-                        configFile: `.eslintrc${ENV === 'development' ? '' : '.prod'}.js`
+                        configFile: `.eslintrc${env === 'development' ? '' : '.prod'}.js`
                     }
                 }]
             }, {

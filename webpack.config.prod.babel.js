@@ -43,7 +43,7 @@ const ParcelList = [{
 }];
 
 export default ParcelList.map(config => {
-    return webpackMerge(baseConfig(config.mode), {
+    return webpackMerge(baseConfig('production'), {
         // 公共配置
         entry: {
             // js 和 css 是分离的所以分开打包

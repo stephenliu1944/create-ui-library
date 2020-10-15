@@ -11,7 +11,7 @@ import pkg from './package.json';
 
 const JS_FILE = pkg.name + '.js';
 const CSS_FILE = pkg.name + '.css';
-const { server, proxy, globals } = pkg.devEnvironments;
+const { servers, proxies, globals } = pkg.devEnvironments;
 
 export default webpackMerge(baseConfig('development'), {
     mode: 'development',
@@ -24,14 +24,14 @@ export default webpackMerge(baseConfig('development'), {
     devtool: 'cheap-module-eval-source-map',
     devServer: {
         host: '0.0.0.0',
-        port: server.local,
+        port: servers.local,
         disableHostCheck: true,
         compress: true,             // 开起 gzip 压缩
         inline: true,
         historyApiFallback: true,   // browserHistory路由
         contentBase: path.resolve(__dirname, 'build'),
         proxy: {
-            ...proxyConfig(proxy)
+            ...proxyConfig(proxies)
         }
     },
     plugins: [
