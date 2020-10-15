@@ -120,11 +120,11 @@ npm un -D less less-loader gulp-less
 ```
   ...
   "devEnvironments": {
-    "server": {
+    "servers": {
       "local": 8080,    // 本地web服务端口, 默认为 8080
       "mock": 3000      // 本地mock服务端口, 默认为 3000
     },
-    "proxy": {          // 代理服务配置, 参考 @easytool/proxy-config 库文档
+    "proxies": {          // 代理服务配置, 参考 @easytool/proxy-config 库文档
       "/api": "http://localhost:3000"
     },
     "globals": {        // 全局变量配置, 仅适用于开发环境, 生产环境会保留变量名
@@ -145,9 +145,13 @@ npm un -D less less-loader gulp-less
 {
   "name": "my-ui",                  // 模块名称
   "version": "0.1.0",               // 模块版本
-  "description": "Use for development UI library.",     // 模块描述  
   "main": "lib/index.js",           // 模块引入主路径
   "module": "es/index.js",          // 模块esm格式引入路径
+  "parcel": {                       // 生产环境打包配置
+    "library": "MyUI",              // 模块打包为 umd 格式时, 使用的全局变量名称
+    "externals": []                 // 模块打包时排除的依赖项, 参考 webpack > externals 文档说明
+  },
+  "description": "Use for development UI library.",     // 模块描述
   "license": "MIT",                 // 模块使用协议, 默认MIT
   "repository": {                   // 模块保存的仓库地址
     "type": "git",
@@ -166,10 +170,6 @@ npm un -D less less-loader gulp-less
     "README.md"
   ],
   ...
-  "parcel": {                       // 生产环境打包配置
-    "library": "MyLib",             // 模块打包为 umd 格式时, 使用的全局变量名称
-    "externals": [],                // 模块打包时排除的依赖项, 参考 webpack > externals 文档说明
-  }
 }
 ```
 其余配置请参考npm官方文档.

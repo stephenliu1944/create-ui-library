@@ -6,7 +6,7 @@ import { name } from './package.json';
 
 const BUILD_PATH = 'build';
 
-export default function(config) {
+export default function(env) {
     return {
         output: {
             path: path.resolve(__dirname, BUILD_PATH),
@@ -20,8 +20,25 @@ export default function(config) {
         },
         module: {
             rules: [{
+                /**
+                 * eslint代码规范校验
+                 */
+                test: /\.(js|jsx)$/,
+                enforce: 'pre',
+                include: path.resolve(__dirname, 'src'),
+                use: [{
+                    loader: 'eslint-loader',
+                    options: {
+                        fix: true,
+                        configFile: `.eslintrc${env === 'production' ? '.prod' : ''}.json`
+                    }
+                }]
+            }, {
+                /**
+                 * 主项目js
+                 */
                 test: /\.(js|jsx)?$/,
-                exclude: /node_modules/,
+                exclude: path.resolve(__dirname, 'node_modules'),
                 use: [{
                     loader: 'babel-loader',
                     options: {

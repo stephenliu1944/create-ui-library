@@ -11,9 +11,9 @@ import pkg from './package.json';
 
 const JS_FILE = pkg.name + '.js';
 const CSS_FILE = pkg.name + '.css';
-const { server, proxy, globals } = pkg.devEnvironments;
+const { servers, proxies, globals } = pkg.devEnvironments;
 
-export default webpackMerge(baseConfig(), {
+export default webpackMerge(baseConfig('development'), {
     mode: 'development',
     entry: {
         main: ['./test/app.js']
@@ -24,32 +24,15 @@ export default webpackMerge(baseConfig(), {
     devtool: 'cheap-module-eval-source-map',
     devServer: {
         host: '0.0.0.0',
-        port: server.local,
+        port: servers.local,
         disableHostCheck: true,
         compress: true,             // 开起 gzip 压缩
         inline: true,
         historyApiFallback: true,   // browserHistory路由
         contentBase: path.resolve(__dirname, 'build'),
         proxy: {
-            ...proxyConfig(proxy)
+            ...proxyConfig(proxies)
         }
-    },
-    module: {
-        rules: [{
-            /**
-             * eslint代码规范校验
-             */
-            test: /\.(js|jsx)$/,
-            enforce: 'pre',
-            include: path.resolve(__dirname, 'src'),
-            use: [{
-                loader: 'eslint-loader',
-                options: {
-                    fix: true,
-                    configFile: '.eslintrc.json'
-                }
-            }]
-        }]
     },
     plugins: [
         new CleanWebpackPlugin(),
