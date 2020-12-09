@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "main": "lib/index.js",
   "module": "es/index.js",
+  "browser": "dist/my-ui.js",
   "parcel": {
     "library": "MyUI",
     "externals": [
-      "react",
-      "react-dom"
+      "react"
     ]
   },
   "description": "Use for development React UI library.",
@@ -29,24 +29,24 @@
     "README.md"
   ],
   "scripts": {
-    "build:dev": "cross-env NODE_ENV=development webpack --config webpack.config.dev.babel.js --colors --display-error-details",
-    "build:prod": "cross-env NODE_ENV=production webpack --config webpack.config.prod.babel.js --colors --display-error-details",
-    "build:esm": "gulp clean-es && cross-env NODE_ENV=production BABEL_ENV=esm gulp build",
-    "build:cjs": "gulp clean-lib && cross-env NODE_ENV=production BABEL_ENV=commonjs gulp build",
-    "build:umd": "gulp clean-dist && npm run build:prod && gulp copy-umd",
-    "start": "cross-env NODE_ENV=development webpack-dev-server --config webpack.config.dev.babel.js --colors",
+    "build-esm": "gulp clean-es && cross-env NODE_ENV=production BABEL_ENV=esm gulp build",
+    "build-cjs": "gulp clean-lib && cross-env NODE_ENV=production BABEL_ENV=commonjs gulp build",
+    "build-umd": "cross-env NODE_ENV=production webpack --config webpack.config.prod.babel.js --progress --colors --display-error-details",
+    "build-dev": "cross-env NODE_ENV=development webpack --config webpack.config.dev.babel.js --progress --colors --display-error-details",
+    "start": "cross-env NODE_ENV=development webpack-dev-server --config webpack.config.dev.babel.js --progress --colors",
+    "link": "cross-env NODE_ENV=link webpack-dev-server --config webpack.config.dev.babel.js --progress --colors --display-error-details",
     "mock": "mock-server ./mock/data --static ./mock/static --config ./mock/mock.config.js --watch",
-    "start:mock": "concurrently \"npm start\" \"npm run mock\"",
-    "lint:js": "eslint -c .eslintrc.prod.js src/ --ext .js,.jsx --fix",
-    "lint:css": "stylelint \"src/**/*.{css,less,scss,sass}\" --cache --fix",
+    "start-mock": "concurrently \"npm start\" \"npm run mock\"",
+    "lint-js": "eslint -c .eslintrc.prod.js src/ --ext .js,.jsx --fix",
+    "lint-css": "stylelint \"src/**/*.{css,less,scss,sass}\" --cache --fix",
     "test": "jest",
-    "package": "npm run build:umd && npm run build:esm && npm run build:cjs",
-    "publish:prerelease": "npm run package && gulp version-prerelease && npm publish",
-    "publish:patch": "npm run package && gulp version-patch && npm publish",
-    "publish:minor": "npm run package && gulp version-minor && npm publish",
-    "publish:major": "npm run package && gulp version-major && npm publish",
+    "package": "npm run build-umd && npm run build-esm && npm run build-cjs",
+    "publish-prerelease": "npm run package && gulp version-prerelease && npm publish",
+    "publish-patch": "npm run package && gulp version-patch && npm publish",
+    "publish-minor": "npm run package && gulp version-minor && npm publish",
+    "publish-major": "npm run package && gulp version-major && npm publish",
     "unpublish": "npm unpublish -f",
-    "git:push": "gulp git-push"
+    "git-push": "gulp git-push"
   },
   "husky": {
     "hooks": {
@@ -102,24 +102,23 @@
     "eslint-loader": "^2.1.0",
     "event-stream": "^4.0.1",
     "file-loader": "^2.0.0",
+    "generate-file-webpack-plugin": "^1.0.1",
     "gulp": "^4.0.0",
     "gulp-babel": "^8.0.0",
     "gulp-bump": "^3.1.1",
     "gulp-cli": "^2.0.1",
     "gulp-clone": "^2.0.1",
     "gulp-eslint": "^5.0.0",
-    "gulp-file": "^0.4.0",
     "gulp-less": "^4.0.1",
     "gulp-postcss": "^8.0.0",
     "gulp-replace": "^1.0.0",
     "gulp-stylelint": "^13.0.0",
-    "gulp-zip": "^4.2.0",
     "html-webpack-plugin": "^4.3.0",
     "husky": "^1.2.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^24.1.0",
-    "less": "^3.10.3",
-    "less-loader": "^5.0.0",
+    "less": "^3.12.2",
+    "less-loader": "^7.0.1",
     "lint-staged": "^9.3.0",
     "mini-css-extract-plugin": "^0.4.2",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
@@ -144,6 +143,8 @@
     "proxies": {
       "/api": "http://localhost:3000"
     },
-    "globals": {}
+    "globals": {
+      "__DEV__": true
+    }
   }
 }

@@ -35,6 +35,8 @@ module.exports = function(api) {
     switch (process.env.NODE_ENV) {
         case 'development':
             break;
+        case 'link':
+            break;
         case 'production':        
             break;
         case 'test':

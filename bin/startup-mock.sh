@@ -1,1 +1,1 @@
-npm run start:mock
+npm run start-mock

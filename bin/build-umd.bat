@@ -1,1 +1,1 @@
-npm run build:umd & pause
+npm run build-umd & pause

@@ -1,1 +1,1 @@
-npm run lint:css & pause
+npm run lint-css & pause

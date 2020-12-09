@@ -1,1 +1,1 @@
-npm run start:mock & pause
+npm run start-mock & pause

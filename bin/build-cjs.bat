@@ -1,1 +1,1 @@
-npm run build:cjs & pause
+npm run build-cjs & pause

@@ -62,6 +62,18 @@ npm install
 }
 ```
 
+### 3. 局部导入样式
+仅在 .my-ui-btn 下有效.
+```less
+.component1 {
+    ...
+    .my-ui-btn {
+        // 可以导入本地和第三方UI库的样式
+        @import 'xxx/style.less';
+    }
+}
+```
+
 ## 使用Sass
 ### 1. 安装依赖
 ```
@@ -127,13 +139,48 @@ npm un -D less less-loader gulp-less
 ### 测试
 执行 bin/test.bat 启动单元测试, 需先在 /test/ 目录中对组件进行测试编码(测试框架为jest).
 
+### link模式
+该模式可以在应用端引入当前模块进行联调.  
+注意: 请确保 package.json 中的 name 和 browser 项已经配置完毕(参考下方"打包配置"部分).
+
+#### 当前模块
+1. 链接到全局
+```
+npm link
+```
+2. 启动link模式
+```
+npm run link
+```
+
+#### 应用端
+1. 链接本库
+```
+npm link my-ui(模块名称)
+```
+2. 配置本库静态资源路径
+```
+// 关联到本库服务地址
+// 端口为 package.json > devEnvironments.servers.local
+window.__MY_LIB_PUBLIC_PATH__ = 'http://localhost:8080/';
+// or
+<script>
+window.__MY_UI_PUBLIC_PATH__ = 'http://localhost:8080/';
+</script>
+```
+3. 启动应用
+```
+npm start
+```
+
 ## 打包配置
 ```
 {
   "name": "my-ui",                  // 模块名称
   "version": "0.1.0",               // 模块版本
-  "main": "lib/index.js",           // 模块引入主路径
+  "main": "lib/index.js",           // 模块cjs格式引入路径
   "module": "es/index.js",          // 模块esm格式引入路径
+  "browser": "dist/my-ui.js",       // 模块umd格式引入路径, 注意: js 文件名需与 name 保持一致
   "parcel": {                       // 生产环境打包配置
     "library": "MyLib",             // 模块打包为 umd 格式时, 使用的全局变量名称
     "externals": []                 // 模块打包时排除的依赖项, 参考 webpack > externals 文档说明
@@ -188,6 +235,7 @@ bin                                         // 可执行命令目录.
 |-build-esm.bat                             // 将源代码编译为 esm 格式保存到es目录.
 |-build-umd.bat                             // 将源代码编译为 umd 格式保存到build目录.
 |-git-push.bat                              // 更新 git 版本号.
+|-link.bat                                  // 用于 npm link 时在应用端调试.
 |-lint-css.bat                              // 执行 stylelint 生产环境 style 代码校验.
 |-lint-js.bat                               // 执行 eslint 生产环境 JS 代码校验.
 |-mock.bat                                  // 启动mock服务(window)
@@ -237,8 +285,8 @@ src                                         // 项目源码目录
 test                                        // 测试代码目录
 |-component1                                // 测试组件1
     |-Component1.js                         // 测试代码
-|-app.js                                    // 本地Web引用测试文件(仅用于调试, 不会打包).
-|-template.ejs                              // 开发调试时的页面模板文件(仅用于调试, 不会打包).
+|-index.ejs                                 // 开发调试时的页面模板文件(仅用于调试, 不会打包).
+|-index.js                                  // 本地Web引用测试文件(仅用于调试, 不会打包).
 .eslintignore                               // eslint忽略校验配置文件.
 .eslintrc.js                                // eslint开发环境代码校验配置文件.
 .eslintrc.prod.js                           // eslint生产环境代码校验配置文件, 比开发环境更加严格, 发版和提交代码时会自动执行此配置校验代码.

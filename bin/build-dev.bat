@@ -1,1 +1,1 @@
-npm run build:dev & pause
+npm run build-dev & pause

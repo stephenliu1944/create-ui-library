@@ -1,18 +1,45 @@
 import path from 'path';
+import generate from 'generate-file-webpack-plugin';
+import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import StyleLintPlugin from 'stylelint-webpack-plugin';
-import { name } from './package.json';
+import { name, parcel } from './package.json';
 
 const BUILD_PATH = 'build';
+const DIST_PATH = 'dist';
 const CONTENT_HASH = '[contenthash:4]';
+const { library, externals } = parcel;
+const NODE_ENV = process.env.NODE_ENV;      // development, link, production
 
-export default function(env) {
-    return {
+function generateFile(ENV) {
+    let path = ENV === 'link' ? 'src' : 'lib';
+
+    return generate({
+        file: `${name}.less`,
+        content: `@import \'../${path}/styles/index.less\';`
+    });
+}
+
+export default function(config = {}) {
+    let { jsFile = `${name}.js`, cssFile = `${name}.css`, isClean = true } = config;
+    
+    return {        
+        entry: {
+            main: [
+                './src/styles/index.less',      // js 和 css 是独立的
+                './src/publicPath.js',
+                NODE_ENV === 'development' ? './test/index.js' : './src/index.js'   // index.js 要放最后, issue: When combining with the output.library option: If an array is passed only the last item is exported.
+            ]
+        },
         output: {
-            path: path.resolve(__dirname, BUILD_PATH),
+            filename: jsFile,
+            path: path.resolve(__dirname, NODE_ENV === 'development' ? BUILD_PATH : DIST_PATH),
+            library,
+            libraryTarget: 'umd',
             jsonpFunction: name            // 避免多个应用之间 jsonpFunction 名冲突
         },
+        externals: NODE_ENV === 'development' ? undefined : externals,
         resolve: {
             extensions: ['.js', '.jsx', '.css', '.less', '.scss', '.sass']
         },
@@ -31,7 +58,7 @@ export default function(env) {
                     loader: 'eslint-loader',
                     options: {
                         fix: true,
-                        configFile: `.eslintrc${env === 'development' ? '' : '.prod'}.js`
+                        configFile: `.eslintrc${NODE_ENV === 'production' ? '.prod' : ''}.js`
                     }
                 }]
             }, {
@@ -53,12 +80,19 @@ export default function(env) {
                 use: [{
                     loader: MiniCssExtractPlugin.loader,
                     options: {
-                        publicPath: './'    // 设置css文件中的url()图片引用前缀
+                        publicPath: './'    // 设置css文件中的url()图片引用前缀为相对路径
                     }
                 },
-                'css-loader',               // 不使用cssModule, 便于用户覆盖class
+                'css-loader',               // 不使用cssModule, 便于应用端覆盖class样式
                 'postcss-loader',
-                'less-loader'
+                {
+                    loader: 'less-loader',
+                    options: {
+                        lessOptions: {
+                            javascriptEnabled: true
+                        }
+                    }
+                }
                 // 以下为 sass 配置
                 // 'resolve-url-loader',
                 // {
@@ -76,8 +110,15 @@ export default function(env) {
                 include: path.resolve(__dirname, 'node_modules'),
                 use: [
                     MiniCssExtractPlugin.loader, 
-                    'css-loader' 
-                    // 'less-loader'
+                    'css-loader',
+                    {
+                        loader: 'less-loader',
+                        options: {
+                            lessOptions: {
+                                javascriptEnabled: true
+                            }
+                        }
+                    }
                     // 'sass-loader'
                 ]
             }, {
@@ -109,6 +150,7 @@ export default function(env) {
             }]
         },
         plugins: [
+            isClean && new CleanWebpackPlugin(),
             // 清空编译目录
             new StyleLintPlugin({
                 context: 'src',
@@ -117,7 +159,12 @@ export default function(env) {
                 cache: true
             }),
             // 文件大小写检测
-            new CaseSensitivePathsPlugin()
-        ]
+            new CaseSensitivePathsPlugin(),
+            new MiniCssExtractPlugin({
+                filename: cssFile
+            }),
+            // dist目录下生成less快捷方式
+            ['link', 'production'].includes(NODE_ENV) && generateFile(NODE_ENV)
+        ].filter(plugin => plugin)
     };
 }
