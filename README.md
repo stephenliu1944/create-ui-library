@@ -100,7 +100,8 @@ npm un -D less less-loader gulp-less
 3. webpack.config.prod.babel.js 第52行 "index.less" 后缀改为 "scss".
 4. 将所有 less 文件后缀改为 scss, 将用到的 less 变量声明改为 sass 变量声明("@" > "$").
 
-## 别名
+## 开发
+### 别名
 默认在 babel.config.js 中配置了 Fonts, Images, Styles, Utils 别名.
 ```js
 ['babel-plugin-module-resolver', {
@@ -114,7 +115,6 @@ npm un -D less less-loader gulp-less
 ```
 注意: 仅适用于JS文件.
 
-## 开发
 ### 环境配置
 在 package.json 中配置:
 ```
@@ -135,7 +135,7 @@ npm un -D less less-loader gulp-less
 
 ### 服务
 1. 执行 bin/startup.bat 启动本地 web 服务, 组件开发过程中可在 /test/app.js 中调试用户使用组件的情况.
-1. 执行 bin/mock.bat 启动 mock 服务, 如有数据需求可在 mock 服务中配置模拟数据.
+2. 执行 bin/mock.bat 启动 mock 服务, 如有数据需求可在 mock 服务中配置模拟数据.
 
 ### 测试
 执行 bin/test.bat 启动单元测试, 需先在 /test/ 目录中对组件进行测试编码(测试框架为jest).
@@ -175,7 +175,7 @@ window.__MY_UI_PUBLIC_PATH__ = 'http://localhost:8080/';
 npm start
 ```
 
-## 打包配置
+## 模块配置
 ```
 {
   "name": "my-ui",                  // 模块名称
@@ -211,7 +211,7 @@ npm start
 其余配置请参考npm官方文档.
 
 ## 部署
-### 1. 注册和登陆
+### 1. 注册和登录
 注册npm账号, 执行后会依次提示输入用户名, 密码, 邮箱.
 ```
 npm adduser  
