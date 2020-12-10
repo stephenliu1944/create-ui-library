@@ -9,14 +9,15 @@
 ## License
 
 # 脚手架介绍
-脚手架用于开发基于 React 的 UI 库.
+该脚手架用于开发基于 React 的 UI 库.
 
 ## 特性
+- 内置link调试模式.
 - 内置单元测试.
 - 内置eslint, stylelint代码检测.
-- 支持打包 UMD, ESModule(esm), CommonJS(cjs) 格式.
-- 支持按需引入.
-- 支持主题定制(less/sass).
+- 打包自动生成 UMD, ESModule(esm), CommonJS(cjs) 格式代码.
+- 支持应用端按需引入.
+- 支持应用端配置主题(less/sass).
 
 ## 项目依赖
 ```
@@ -139,8 +140,9 @@ npm un -D less less-loader gulp-less
 ### 测试
 执行 bin/test.bat 启动单元测试, 需先在 /test/ 目录中对组件进行测试编码(测试框架为jest).
 
-### link模式
-该模式可以在应用端引入当前模块进行联调.  
+### link调试模式
+当应用端使用 npm link 关联当前模块时, 可以使用该模式进行联调.  
+该模式会启动一个本地服务部署静态资源, 并持续监听本地代码, 一旦发生变化会立即构建到dist目录.
 注意: 请确保 package.json 中的 name 和 browser 项已经配置完毕(参考下方"打包配置"部分).
 
 #### 当前模块
