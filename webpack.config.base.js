@@ -53,7 +53,7 @@ export default function(config = {}) {
                  */
                 test: /\.(js|jsx)$/,
                 enforce: 'pre',
-                include: path.resolve(__dirname, 'src'),
+                exclude: path.resolve(__dirname, 'node_modules'),
                 use: [{
                     loader: 'eslint-loader',
                     options: {
@@ -64,7 +64,7 @@ export default function(config = {}) {
             }, {
                 // oneof
                 test: /\.(js|jsx)?$/,
-                exclude: /node_modules/,
+                exclude: path.resolve(__dirname, 'node_modules'),
                 use: [{
                     loader: 'babel-loader',
                     options: {
@@ -76,7 +76,7 @@ export default function(config = {}) {
                  * 主项目的css
                  */
                 test: /\.(css|less|sass|scss)$/,
-                include: path.resolve(__dirname, 'src'),
+                exclude: path.resolve(__dirname, 'node_modules'),
                 use: [{
                     loader: MiniCssExtractPlugin.loader,
                     options: {
