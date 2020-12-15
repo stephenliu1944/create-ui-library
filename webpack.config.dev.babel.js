@@ -40,6 +40,6 @@ export default webpackMerge(baseConfig, {
         NODE_ENV === 'development' && new webpack.DefinePlugin({
             ...defineConfig(globals)
         })
-    ].filter(plugin => plugin)
+    ].filter(Boolean)
 });
 

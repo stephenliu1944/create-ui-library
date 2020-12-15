@@ -62,9 +62,8 @@ export default function(config = {}) {
                     }
                 }]
             }, {
-                // oneof
                 test: /\.(js|jsx)?$/,
-                exclude: path.resolve(__dirname, 'node_modules'),
+                include: [path.resolve(__dirname, 'src'), path.resolve(__dirname, 'test')],
                 use: [{
                     loader: 'babel-loader',
                     options: {
@@ -76,7 +75,7 @@ export default function(config = {}) {
                  * 主项目的css
                  */
                 test: /\.(css|less|sass|scss)$/,
-                exclude: path.resolve(__dirname, 'node_modules'),
+                include: [path.resolve(__dirname, 'src'), path.resolve(__dirname, 'test')],
                 use: [{
                     loader: MiniCssExtractPlugin.loader,
                     options: {
@@ -107,7 +106,7 @@ export default function(config = {}) {
                  * 第三方组件的css, scss.
                  */
                 test: /\.(css|less|sass|scss)$/,
-                include: path.resolve(__dirname, 'node_modules'),
+                exclude: [path.resolve(__dirname, 'src'), path.resolve(__dirname, 'test')],
                 use: [
                     MiniCssExtractPlugin.loader, 
                     'css-loader',
@@ -165,6 +164,6 @@ export default function(config = {}) {
             }),
             // dist目录下生成less快捷方式
             ['link', 'production'].includes(NODE_ENV) && generateFile(NODE_ENV)
-        ].filter(plugin => plugin)
+        ].filter(Boolean)
     };
 }

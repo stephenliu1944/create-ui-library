@@ -156,21 +156,45 @@ npm run link
 ```
 
 #### 应用端
-1. 链接本库
+1. 链接模块
 ```
 npm link my-ui(模块名称)
 ```
-2. 配置本库静态资源路径
+2. 配置 resolve.modules  
+确保在遇到相同依赖库时 webpack 优先使用应用端依赖库.
 ```
-// 关联到本库服务地址
-// 端口为 package.json > devEnvironments.servers.local
+// webpack.config.js
+{
+  ...
+  resolve: {
+    modules: [path.resolve(__dirname, 'node_modules'), 'node_modules'],
+  }
+}
+```
+3. 配置模块静态资源路径  
+关联到模块服务地址, 端口与 package.json > devEnvironments.servers.local 配置对应.
+```
+// index.js
 window.__MY_LIB_PUBLIC_PATH__ = 'http://localhost:8080/';
-// or
-<script>
-window.__MY_UI_PUBLIC_PATH__ = 'http://localhost:8080/';
-</script>
 ```
-3. 启动应用
+or
+```
+// index.ejs
+<% if (process.env.NODE_ENV === 'development') { %>
+<script>
+  window.__MY_UI_PUBLIC_PATH__ = 'http://localhost:8080/';
+</script>
+<% } %>
+```
+4. 引入样式  
+该方法仅用于调试, 生产环境建议使用按需引入的方式(参考babel-plugin-import).
+```
+// index.js
+import 'my-ui/dist/my-ui.less';
+// or
+import 'my-ui/dist/my-ui.css';
+```
+5. 启动应用
 ```
 npm start
 ```
