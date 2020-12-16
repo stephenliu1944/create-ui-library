@@ -1,6 +1,7 @@
 import webpack from 'webpack';
 import webpackMerge from 'webpack-merge';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import WebpackBundleAnalyzer from 'webpack-bundle-analyzer';
 import proxyConfig from '@easytool/proxy-config';
 import defineConfig from '@easytool/define-config';
 import getBaseConfig from './webpack.config.base';
@@ -40,6 +41,8 @@ export default webpackMerge(baseConfig, {
         NODE_ENV === 'development' && new webpack.DefinePlugin({
             ...defineConfig(globals)
         })
+        // 依赖包分析
+        // NODE_ENV === 'development' && new WebpackBundleAnalyzer.BundleAnalyzerPlugin()
     ].filter(Boolean)
 });
 
