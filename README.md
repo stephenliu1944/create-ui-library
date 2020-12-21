@@ -187,7 +187,7 @@ or
 <% } %>
 ```
 4. 引入样式  
-该方法仅用于调试, 生产环境建议使用按需引入的方式(参考babel-plugin-import).
+该方法仅用于调试, 生产环境建议使用按需引入的方式(参考babel-plugin-import/babel-plugin-import-less).
 ```
 // index.js
 import 'my-ui/dist/my-ui.less';
@@ -197,6 +197,24 @@ import 'my-ui/dist/my-ui.css';
 5. 启动应用
 ```
 npm start
+```
+注意: link模式不支持应用端使用按需引入(babel-plugin-import/babel-plugin-import-less), 可以在babel.config.js中根据环境进行配置:
+```js
+switch (process.env.NODE_ENV) {
+    case 'development':
+        break;
+    case 'test':
+        break;
+    case 'production':
+        plugins.push(
+            ['babel-plugin-import-less', {
+                library: 'my-ui',
+                module: 'lib/[little-camel]',
+                style: 'styles/index.css'
+            }]
+        );
+        break;
+}
 ```
 
 ## 模块配置

@@ -38,9 +38,9 @@ module.exports = function(api) {
             break;
         case 'link':
             break;
-        case 'production':        
-            break;
         case 'test':
+            break;
+        case 'production':        
             break;
     }
 
