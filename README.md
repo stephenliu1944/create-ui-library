@@ -44,6 +44,21 @@ npm install
 3. 每个 component 的 JS 中不要直接引入样式(css/less/scss)文件, 将 js 和 css 解耦, 用户在使用时可以通过babel-plugin-import 或 babel-plugin-import-less 等按需引入插件自动导入必要的样式.
 4. css 命名直接使用中横线(my-ui-btn)等命名规则, 便于用户覆盖样式.
 
+## 库名配置
+修改 package.json
+```
+  "name": "my-ui",                // UI库名称
+  "browser": "dist/my-ui.js",     // my-ui 与 name 保持一致
+```
+修改 src/constants/common.js
+```js
+export const CLS_PREFIX = 'myui'; // 本库全局class前缀
+```
+修改 src/styles/themes/default.less
+```less
+@cls-prefix: myui;                // 本库全局class前缀
+```
+
 ## 主题开发
 ### 1. 定义变量
 在 /src/styles/themes/default.less 中定义主题变量.
@@ -95,17 +110,18 @@ npm un -D less less-loader gulp-less
 ```
 
 ### 2. 修改文件
-1. gulpfile.js 删除第9, 67, 112行代码. 移除第10-13, 70-73, 113行注释.
-2. webpack.config.base.js 删除第 44 行代码, 移除第 46-52 行注释.
-3. webpack.config.prod.babel.js 第52行 "index.less" 后缀改为 "scss".
+1. gulpfile.js 释放sass注释, 移除less对应代码.
+2. webpack.config.base.js 释放sass注释, 移除less对应代码.
 4. 将所有 less 文件后缀改为 scss, 将用到的 less 变量声明改为 sass 变量声明("@" > "$").
 
 ## 开发
 ### 别名
-默认在 babel.config.js 中配置了 Fonts, Images, Styles, Utils 别名.
+别名需要在 babel.config.js 中进行配置, 不能配置在 webpack 中.  
+默认配置了 Constants, Fonts, Images, Styles, Utils 别名.
 ```js
 ['babel-plugin-module-resolver', {
     alias: {
+        'Constants': './src/constants',
         'Fonts': './src/fonts',
         'Images': './src/images',
         'Styles': './src/styles',
@@ -314,6 +330,9 @@ src                                         // 项目源码目录
         |-index.less                        // 组件样式less文件
     |-Component2.js                         // 组件js文件
     |-index.js                              // 组件的入口文件
+|-constants                                 // 全局常量存放目录
+  |-common.js                               // 全局字符串
+  |-enum.js                                 // 全局枚举类型
 |-fonts                                     // 字体文件存放目录
 |-images                                    // 公共图片存放目录
 |-styles                                    // 公共样式存放目录

@@ -1,14 +1,21 @@
 module.exports = {
+    'settings': {
+        'react': {
+            'version': 'detect'
+        }
+    },
+    'plugins': ['react'],
     'parser': 'babel-eslint',
     'parserOptions': {
         'ecmaVersion': 6,
-        'sourceType': 'module'
+        'sourceType': 'module',
+        'ecmaFeatures': {
+            'jsx': true
+        }
     },
     'env': {
         'es6': true,
         'browser': true,
-        'node': true,
-        'jquery': true,
         'commonjs': true
     },
     'rules': {
@@ -56,13 +63,25 @@ module.exports = {
         'eqeqeq': 'error',
         'radix': 'error',
         'quotes': ['error', 'single'],
-        'indent': ['warn', 4, {'SwitchCase': 1, 'MemberExpression': 2 }],
+        'indent': ['warn', 4, {'SwitchCase': 1, 'MemberExpression': 2}],
         'keyword-spacing': 'error',
         'arrow-spacing': 'error',
         'array-bracket-spacing': ['error', 'never'],
         'object-curly-spacing': ['error', 'always'],
         'space-before-blocks': ['error', 'always'],
         'space-before-function-paren': ['error', 'never'],
-        'space-unary-ops': ['error', {'words': true, 'nonwords': false}]
+        'space-unary-ops': ['error', {'words': true, 'nonwords': false}],
+        'jsx-quotes': 'error',
+        'react/no-array-index-key': 'warn',
+        'react/no-deprecated': 'error',
+        'react/no-find-dom-node': 'error',
+        'react/no-is-mounted': 'error',
+        'react/no-multi-comp': 'error',
+        'react/no-string-refs': 'error',
+        'react/no-unused-prop-types': 'error',
+        'react/prop-types': 'warn',
+        'react/prefer-es6-class': 'error',
+        'react/jsx-uses-vars': 'warn',
+        'react/jsx-uses-react': 'error'
     }
 }

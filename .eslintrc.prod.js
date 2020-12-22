@@ -7,7 +7,7 @@ module.exports = {
         'no-debugger': 'error',
         'no-alert': 'error',
         'no-eval': 'error',
-        'indent': ['error', 4, {'SwitchCase': 1}],
+        'indent': ['error', 4, {'SwitchCase': 1, 'MemberExpression': 2}],
         'spaced-comment': 'error'
     }
 }

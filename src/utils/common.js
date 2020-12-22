@@ -1,6 +1,7 @@
 /**
  * @desc 封装了一些项目常用方法.
  */
+import { CLS_PREFIX } from 'Constants/common';
 
 // 内部函数, 用于判断对象类型
 function _getClass(object) {
@@ -226,4 +227,12 @@ export function delegate(elem, type, selector, fn, data = {}) {
     if (elem.addEventListener) {
         elem.addEventListener(type, handler);
     }
+}
+
+export function getClassPrefix(className, prefix = CLS_PREFIX) {
+    if (className) {
+        return `${prefix}-${className}`; 
+    }
+
+    return prefix;
 }

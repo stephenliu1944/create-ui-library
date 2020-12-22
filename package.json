@@ -68,7 +68,9 @@
     "react-dom": ">=16.0.0"
   },
   "dependencies": {
-    "@babel/runtime": "^7.0.0"
+    "@babel/runtime": "^7.0.0",
+    "classnames": "^2.2.6",
+    "prop-types": "^15.7.2"
   },
   "devDependencies": {
     "@babel/core": "^7.0.1",
@@ -100,6 +102,7 @@
     "del": "^5.0.0",
     "eslint": "^5.6.0",
     "eslint-loader": "^2.1.0",
+    "eslint-plugin-react": "^7.12.3",
     "event-stream": "^4.0.1",
     "file-loader": "^2.0.0",
     "generate-file-webpack-plugin": "^1.0.1",
@@ -127,7 +130,7 @@
     "react-dom": "^16.12.0",
     "style-loader": "^0.23.0",
     "stylelint": "^11.0.0",
-    "stylelint-webpack-plugin": "^0.10.5",
+    "stylelint-webpack-plugin": "^1.2.3",
     "terser-webpack-plugin": "^2.3.6",
     "url-loader": "^2.3.0",
     "webpack": "^4.19.0",

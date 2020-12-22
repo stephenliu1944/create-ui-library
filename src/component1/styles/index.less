@@ -1,7 +1,9 @@
 @import '../../styles/themes/default.less';
 @import '../../styles/base.less';
 
-.component1 {
+@component1-cls-prefix: ~'@{cls-prefix}-component1';
+
+.@{component1-cls-prefix} {
     background: url('../images/animal.png');
     width: 300px;
     height: 300px;

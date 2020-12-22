@@ -24,6 +24,7 @@ module.exports = function(api) {
         '@babel/plugin-proposal-export-namespace-from',
         ['babel-plugin-module-resolver', {
             alias: {
+                'Constants': './src/constants',
                 'Fonts': './src/fonts',
                 'Images': './src/images',
                 'Styles': './src/styles',
