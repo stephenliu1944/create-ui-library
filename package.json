@@ -89,7 +89,7 @@
     "@easytool/proxy-config": "^0.1.0",
     "autoprefixer": "^9.1.5",
     "babel-core": "^7.0.0-bridge.0",
-    "babel-eslint": "8.0.1",
+    "babel-eslint": "10.0.1",
     "babel-jest": "^25.0.0",
     "babel-loader": "^8.0.2",
     "babel-plugin-inline-import-data-uri": "^1.0.1",

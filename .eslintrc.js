@@ -63,7 +63,7 @@ module.exports = {
         'eqeqeq': 'error',
         'radix': 'error',
         'quotes': ['error', 'single'],
-        'indent': ['warn', 4, {'SwitchCase': 1, 'MemberExpression': 2}],
+        'indent': ['warn', 4, {'SwitchCase': 1, 'MemberExpression': 2, 'ignoredNodes': ['TemplateLiteral']}],
         'keyword-spacing': 'error',
         'arrow-spacing': 'error',
         'array-bracket-spacing': ['error', 'never'],
