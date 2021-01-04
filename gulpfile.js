@@ -4,19 +4,20 @@ var { execSync } = require('child_process');
 var replace = require('gulp-replace');
 var babel = require('gulp-babel');
 var postcss = require('gulp-postcss');
+var sourcemaps = require('gulp-sourcemaps');
 var less = require('gulp-less');
 // 编译sass
 /*
 var sass = require('gulp-sass');
 var gulpResolveUrl = require('gulp-resolve-url');
 var importOnce = require('node-sass-import-once');
-var sourcemaps = require('gulp-sourcemaps');
 */
 var bump = require('gulp-bump');
-var clone = require('gulp-clone');
 var eslint = require('gulp-eslint');
 var stylelint = require('gulp-stylelint');
-var { merge } = require('event-stream');
+var filter = require('gulp-filter');
+var clone = require('gulp-clone');
+var merge2 = require('merge2');
 
 const MODULE = process.env.BABEL_ENV;
 const SRC_PATH = 'src';                 
@@ -25,7 +26,7 @@ const LIB_PATH = 'lib';
 const DEST_PATH = MODULE === 'esm' ? ES_PATH : LIB_PATH;
 const WATCH_DELAY = 1000;
 
-// 校验代码规范        
+// 校验 style 代码规范        
 function lintStyle(stream) {
     return stream.pipe(stylelint({           
         fix: true,                                          // 自动修复部分错误
@@ -35,6 +36,27 @@ function lintStyle(stream) {
         reporters: [{ formatter: 'string', console: true }] // 控制台输出日志
     }));
 }
+// 编译 less, sass 文件
+function compileStyle(stream) {
+    // 编译less
+    return stream
+    //      .pipe(sourcemaps.init())
+            // 仅编译入口文件, 其余为依赖样式, 无需单独编译(单独编译可能会由于找不到变量报错).
+            .pipe(filter('**/styles/index.less'))
+            .pipe(less({ 
+                rewriteUrls: 'local',
+                javascriptEnabled: true
+            }));
+    // 编译sass
+    /*    
+            // 过滤重复导入的文件
+            .pipe(sass({ importer: importOnce }).on('error', sass.logError))    
+            // 等于 less 的 rewriteUrls 配置, 需要搭配 sourcemaps 使用
+            .pipe(gulpResolveUrl())
+    */
+    //      .pipe(sourcemaps.write());
+}
+
 /**
  * 文件清除
  */
@@ -58,23 +80,11 @@ gulp.task('build-css', () => {
     // 复制 less, sass 源文件流
     var sourceStream = styleStream.pipe(clone());
     // 编译 less, sass 文件流
-    var compileStream = styleStream
-            // 编译less
-            .pipe(less({ 
-                rewriteUrls: 'local',
-                javascriptEnabled: true
-            }));
-    // 编译sass
-    /*
-            .pipe(sourcemaps.init())   
-            .pipe(sass({ importer: importOnce }).on('error', sass.logError))    // 过滤重复导入的文件
-            .pipe(gulpResolveUrl())                                             // 等于 less 的 rewriteUrls 配置, 需要搭配sourcemaps使用
-            .pipe(sourcemaps.write());
-            */
+    var compileStream = compileStyle(styleStream);
     // 编译 postcss
-    var mergeStream = merge(compileStream, cssStream).pipe(postcss());
+    var mergeStream = merge2(compileStream, cssStream).pipe(postcss());
     // 将 less, scss 源文件和编译后的 css 文件共同拷贝到目的地.
-    return merge(sourceStream, mergeStream).pipe(gulp.dest(DEST_PATH));    
+    return merge2(sourceStream, mergeStream).pipe(gulp.dest(DEST_PATH));    
 });
 // 将 JS 编译为 es module 或 commonjs 格式(根据 BABEL_ENV 参数), JS引用的图片转换为 base64 格式
 gulp.task('build-js', () => {
