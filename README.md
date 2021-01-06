@@ -39,10 +39,11 @@ npm install
 ```
 
 ## 开发规范
-1. 在 /src/index.js 中导入所有的组件脚本.
-2. 在 /src/styles/index.less 中导入所有的组件样式.
-3. 每个 component 的 JS 中不要直接引入样式(css/less/scss)文件, 将 js 和 css 解耦, 用户在使用时可以通过babel-plugin-import 或 babel-plugin-import-less 等按需引入插件自动导入必要的样式.
-4. css 命名直接使用中横线(my-ui-btn)等命名规则, 便于用户覆盖样式.
+1. 每个对外提供的组件需要直接写在 src 目录下, 不能嵌套, 便于应用端通过 babel 插件实现按需引入.
+1. 在 /src/index.js 中引入所有对外提供的组件.
+2. 在 /src/styles/index.less 中导入所有对外提供的组件样式.
+3. 组件的 JS 代码中不要直接引入样式(css/less/scss)文件, 将 js 和 css 解耦, 应用端可以通过 babel-plugin-import 或 babel-plugin-import-less 等按需引入插件自动导入依赖样式.
+4. 样式文件的 class 命名统一使用中横线(如: my-ui-btn)命名规则, 便于应用端覆盖样式.
 
 ## 库名配置
 修改 package.json
